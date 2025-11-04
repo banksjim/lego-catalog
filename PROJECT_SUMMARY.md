@@ -313,6 +313,7 @@ cd frontend && npm test
    - Box condition
 
 2. **New Features**:
+   - Minifigure tracking (individual minifig inventory with details)
    - Wishlist management
    - Price tracking over time
    - Integration with Brickset or Rebrickable APIs
