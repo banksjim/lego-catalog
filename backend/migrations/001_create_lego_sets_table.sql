@@ -1,0 +1,25 @@
+-- Create lego_sets table
+CREATE TABLE IF NOT EXISTS lego_sets (
+    id CHAR(36) PRIMARY KEY,
+    set_number VARCHAR(50) NOT NULL UNIQUE,
+    alternate_set_number VARCHAR(50),
+    title VARCHAR(255) NOT NULL,
+    owned BOOLEAN DEFAULT FALSE,
+    quantity_owned INT DEFAULT 0,
+    release_year INT,
+    description TEXT,
+    series VARCHAR(255),
+    num_parts INT DEFAULT 0,
+    num_minifigs INT DEFAULT 0,
+    bricklink_url VARCHAR(500),
+    approximate_value DECIMAL(10, 2),
+    value_last_updated DATE,
+    image_filename VARCHAR(255),
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_set_number (set_number),
+    INDEX idx_series (series),
+    INDEX idx_owned (owned),
+    INDEX idx_release_year (release_year)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

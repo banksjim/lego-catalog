@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Lego Blocks Font - Manual Installation (Optional) */
+/* Uncomment and use if you download the Lego Blocks font manually */
+/*
+@font-face {
+  font-family: 'Lego Blocks';
+  src: url('/fonts/LegoBlocks.ttf') format('truetype'),
+       url('/fonts/LegoBlocks.woff') format('woff'),
+       url('/fonts/LegoBlocks.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+*/
+
+/* Custom scrollbar styles */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100 dark:bg-gray-800;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 dark:bg-gray-600 rounded;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-400 dark:bg-gray-500;
+}
+
+/* Ensure proper dark mode transitions */
+* {
+  @apply transition-colors duration-200;
+}
+
+/* Remove number input spinners */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* Better visible borders for form inputs in light mode */
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="date"],
+textarea,
+select {
+  border-color: #9ca3af !important; /* gray-400 - lighter but visible */
+  border-width: 1.5px !important;
+}
+
+input[type="text"]:hover,
+input[type="number"]:hover,
+input[type="email"]:hover,
+input[type="url"]:hover,
+input[type="date"]:hover,
+textarea:hover,
+select:hover {
+  border-color: #6b7280 !important; /* gray-500 - medium on hover */
+  border-width: 1.5px !important;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="date"]:focus,
+textarea:focus,
+select:focus {
+  border-color: #e4032e !important; /* Lego Red */
+  border-width: 1.5px !important;
+  @apply ring-primary-500;
+}
+
+/* Dark mode keeps the current styling */
+.dark input[type="text"],
+.dark input[type="number"],
+.dark input[type="email"],
+.dark input[type="url"],
+.dark input[type="date"],
+.dark textarea,
+.dark select {
+  border-color: #4b5563 !important; /* gray-600 */
+  border-width: 1.5px !important;
+}
+
+/* Toast notification animations */
+@keyframes slide-in-bottom {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in-bottom {
+  animation: slide-in-bottom 0.3s ease-out;
+}
