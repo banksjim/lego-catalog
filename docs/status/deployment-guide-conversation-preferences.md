@@ -20,18 +20,33 @@
 ## How to Present Items
 
 ### Option Formatting
-**REQUIRED:** Each option on a separate line (no blank lines between them):
+**CRITICAL FORMAT REQUIREMENT:**
+
+After presenting the context and recommendation, add a blank line, then:
+
 ```
-**A.** Add (full) - Description
-**B.** Add (brief) - Description **(RECOMMENDED)**
-**C.** Separate - Description
-**D.** Skip - Description
-**E.** Discuss - Description
+Here are your options:
+
+- **A. Add (full)** - Description
+
+- **B. Add (brief)** - Description **(RECOMMENDED)**
+
+- **C. Separate** - Description
+
+- **D. Skip** - Description
+
+- **E. Discuss** - Description
 ```
 
-**CRITICAL:** Mark your recommended option with asterisk: `**(RECOMMENDED)**`
+**REQUIRED:**
+- Blank line before "Here are your options:"
+- Blank line AFTER "Here are your options:" before option A
+- Use bullet list format with `- **A.**` for each option
+- BLANK LINE between EACH option (this is critical for readability!)
+- Mark recommended option with `**(RECOMMENDED)**`
+- Bold the option letter and label (e.g., **A. Add (full)**)
 
-**NOT THIS:** Options all on one line running together
+**NOT THIS:** Options crammed together without blank lines
 
 ### Include Alternative Recommendations
 When you have a recommendation that differs from full implementation, CREATE AN ADDITIONAL OPTION for it.
@@ -55,30 +70,29 @@ Include pros/cons when helpful for decision-making.
 ### Number of Options
 You can provide MORE than A-D options. Use A-F or more if you have multiple valid alternatives.
 
-## Work Summaries
+## Decision Summaries
 
 ### When to Summarize
-**AFTER completing work on any non-skip item, BEFORE presenting the next item.**
+**AFTER recording any non-skip decision, BEFORE presenting the next item.**
 
 If user selects "Skip", no summary needed - just move to next item.
 
-### Summary Format
-- **Length:** 100-120 words maximum, shorter if sufficient
-- **Content:** What you added/created, where it goes, key topics covered
+### Summary Format (Decision Collection Mode)
+- **Length:** 50-80 words maximum
+- **Content:** What decision was made, what will be created/added when implemented
 - **Timing:** Immediately before presenting the next item
 
 Example:
 ```
-**Work Summary for Item 11:**
-Adding section on secrets management to CI/CD chapter. Covers GitHub Secrets
-setup, GCP Secret Manager integration, least privilege patterns (separate
-service accounts per environment), and quarterly manual rotation for solo
-developer. Includes workflow example showing access to both GitHub and GCP
-secrets. Estimated 1-1.5 pages in main guide.
+**Decision Summary for Item 34:**
+Recorded decision: Separate document for secret rotation procedures (manual only).
+Will create detailed guide covering database password rotation, API key rotation,
+JWT signing key rotation, and service account rotation. Focus on quarterly manual
+procedures for solo developer with step-by-step gcloud commands.
 
 ---
 
-**Progress: Item 12 of 108**
+**Progress: Item 35 of 108**
 [Next item presentation...]
 ```
 
@@ -102,8 +116,18 @@ secrets. Estimated 1-1.5 pages in main guide.
 ## Progress Tracking
 Current item number is stored in tracker JSON. Always update after each decision.
 
-## Work Execution
-User expects work to be done, not just tracked for later. When items are selected (Add/Separate), create the actual content.
+## Work Execution Mode
+
+**CURRENT MODE: Decision Collection (Items 1-108)**
+- Collect user decisions for all 108 items
+- Record decisions and notes in tracker JSON
+- Do NOT implement the actual documentation yet
+- After all decisions collected, implement in batches
+
+**When we switch to Implementation Mode:**
+- User will explicitly request implementation
+- Create actual content based on collected decisions
+- Work through items systematically
 
 ## Linking Requirements
 **CRITICAL:** ALL separate documents MUST be referenced and linked in the main `CLOUD_DEPLOYMENT_GUIDE.md` in appropriate context.
