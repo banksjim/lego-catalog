@@ -1259,16 +1259,7 @@ gh workflow run deploy-prod.yml --ref v1.6.0
   □ Current error rate < 1%
   □ No ongoing incidents
   □ Ready to monitor deployment
-
-✅ Security Verification
-  □ Security hardening checklist reviewed (see link below)
-  □ gosec scan passing (no high-severity issues)
-  □ npm audit shows no high/critical vulnerabilities
-  □ No secrets in code or environment variables
-  □ All dependencies verified (go mod verify)
 ```
-
-**📘 [Complete Security Hardening Checklist](docs/enhancements/cloud-deployment-guide/detailed-guidance/security-hardening-checklist.md)** - OWASP Top 10 mitigations, security scanning tools, and security best practices for Go + React applications.
 
 ### During Deployment (Production)
 
