@@ -20,6 +20,7 @@ This guide describes the complete architecture and workflow for deploying the Le
 - **Zero-downtime deployments** with blue/green strategy and automatic rollback capabilities
 
 **Monthly Cost Estimate:**
+
 - Development: $20-25/month
 - Production: $30-40/month
 - **Total: $50-65/month** for both environments (saves $276/year vs 3-env setup)
@@ -30,7 +31,7 @@ This guide describes the complete architecture and workflow for deploying the Le
 
 ### High-Level Architecture
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────┐
 │                        Developer Laptop                          │
 │  • VS Code / IDE                                                 │
@@ -116,7 +117,7 @@ You'll maintain **two GitHub repositories** to separate application code from in
 
 #### Repository 1: `banksjim/lego-catalog` (Application Code)
 
-```
+```text
 lego-catalog/
 ├── .github/
 │   └── workflows/
@@ -149,7 +150,7 @@ lego-catalog/
 
 #### Repository 2: `banksjim/lego-catalog-infrastructure` (Infrastructure)
 
-```
+```text
 lego-catalog-infrastructure/
 ├── .github/
 │   └── workflows/
@@ -231,7 +232,7 @@ Each environment is a **separate GCP project** with identical infrastructure but
 
 ### Access URLs
 
-```
+```text
 Development:  https://backend-dev-<hash>-uc.a.run.app
 Production:   https://backend-prod-<hash>-uc.a.run.app
 
@@ -347,6 +348,7 @@ jobs:
 ```
 
 **PR Review Process:**
+
 1. Automated tests run
 2. Self-review (you're solo developer)
 3. Merge to `main`
@@ -384,13 +386,14 @@ jobs:
 ```
 
 **Deployment Steps:**
+
 1. Merge to `main`
 2. Container build
 3. Deploy to Cloud Run
 4. Health checks
 5. Deployment complete
 
-**You can now test at:** https://dev.lego-catalog.app
+**You can now test at:** <https://dev.lego-catalog.app>
 
 #### Step 4: Test Thoroughly in Development
 
@@ -412,6 +415,7 @@ open https://dev.lego-catalog.app
 ```
 
 **Development Testing Checklist:**
+
 - ✅ Feature works as expected
 - ✅ No errors in Honeycomb
 - ✅ Mobile responsive
@@ -478,11 +482,13 @@ jobs:
 ```
 
 **Required Approvals:**
+
 - ✅ Your approval (sole developer)
 - ✅ All automated checks passing
 - ✅ Dev environment tested successfully
 
 **Deployment Sequence:**
+
 1. Manual approval
 2. Pre-deployment checks
 3. Blue deployment (0% traffic)
@@ -494,7 +500,7 @@ jobs:
 9. Final monitoring period
 10. Deployment complete
 
-**Deployed to:** https://lego-catalog.app
+**Deployed to:** <https://lego-catalog.app>
 
 ---
 
@@ -503,14 +509,16 @@ jobs:
 ### Why This Works for Solo Developers
 
 **Traditional Approach (3 environments):**
-```
+
+```text
 Laptop → Dev → Test → Prod
          ↓      ↓      ↓
       Step 1  Step 2  Step 3  (Multiple approval gates)
 ```
 
 **Optimized Approach (2 environments with safety):**
-```
+
+```text
 Laptop → Dev → Prod
          ↓      ↓
       Step 1  Step 2  (Gradual rollout with auto-rollback)
@@ -594,7 +602,7 @@ GitHub Actions **completely automates** your deployment pipeline. You never manu
 
 **Purpose:** Ensure code quality before merge
 
-```yaml
+```text
 Jobs:
   1. Lint code (Go + TypeScript)
   2. Run unit tests (backend + frontend)
@@ -614,7 +622,7 @@ Status checks:
 
 **Purpose:** Automatic deployment to development environment
 
-```yaml
+```text
 Jobs:
   build:
     - Checkout code (git sha from main)
@@ -648,7 +656,7 @@ Jobs:
 
 **Purpose:** Production deployment with safety checks and blue/green strategy
 
-```yaml
+```text
 Jobs:
   pre-deployment:
     - Verify release tag
@@ -698,6 +706,7 @@ Jobs:
 ```
 
 **Safety Features:**
+
 - ✅ Manual approval required
 - ✅ Smoke tests before traffic
 - ✅ Gradual rollout with monitoring
@@ -712,7 +721,7 @@ Jobs:
 
 **Purpose:** Preview infrastructure changes
 
-```yaml
+```text
 Jobs:
   plan-dev:
     - Terraform init (dev environment)
@@ -732,7 +741,7 @@ Jobs:
 
 **Purpose:** Apply infrastructure changes
 
-```yaml
+```text
 Jobs:
   apply-dev:
     - Terraform apply (auto-approved for dev)
@@ -760,12 +769,14 @@ Jobs:
 ### Why Honeycomb vs Traditional Monitoring
 
 **Traditional (Datadog, New Relic):**
+
 - Pre-defined dashboards
 - Metric-based (counters, gauges)
 - Limited dimension cardinality
 - Expensive at scale
 
 **Honeycomb:**
+
 - Query-driven exploration
 - Event-based (every request is queryable)
 - Unlimited dimension cardinality
@@ -991,9 +1002,9 @@ resource "google_secret_manager_secret" "honeycomb_api_key" {
 
 #### 1. Distributed Traces
 
-**Example: User viewing a Lego set**
+Example: User viewing a Lego set
 
-```
+```text
 Request: GET /api/sets/123
 Total Duration: 67ms
 
@@ -1019,7 +1030,7 @@ Custom Fields:
 
 **Honeycomb lets you ask questions naturally:**
 
-```
+```text
 Query 1: "Show me all requests that took > 1 second"
 → Filter: duration_ms > 1000
 → Results: 12 slow requests found
@@ -1052,7 +1063,7 @@ Query 4: "Why is the dashboard slow?"
 
 **Production deployment in progress:**
 
-```
+```text
 Honeycomb Live Query (auto-refreshing):
 
 Traffic Distribution:
@@ -1073,7 +1084,7 @@ AUTO-ROLLBACK CONDITIONS:
 
 **Honeycomb automatically highlights what's different:**
 
-```
+```text
 Question: "Why are some requests slow?"
 
 BubbleUp Analysis:
@@ -1128,10 +1139,12 @@ SLO: Dashboard Load Time
 | **Enterprise** | Custom | Custom | Custom | Large teams |
 
 **For your use case (100 users):**
+
 - Expected usage: ~5-10 GB/month
 - **Cost: $0** (well within free tier)
 
 **When to upgrade:**
+
 - You exceed 20 GB/month (~5000 active users)
 - Need longer retention (>60 days)
 - Need team collaboration features
@@ -1195,16 +1208,19 @@ gh workflow run deploy-prod.yml --ref v1.6.0
 ### Monitoring Checklist
 
 **Regular Health Checks:**
+
 - Check Honeycomb home dashboard
 - Review any error spikes or anomalies
 - Verify both environments are healthy
 
 **Periodic Reviews:**
+
 - Review performance trends in Honeycomb
 - Check GCP billing dashboard
 - Review and close old deployments
 
 **Maintenance Tasks:**
+
 - Review SLO compliance
 - Update dependencies (Go modules, npm packages)
 - Review and optimize costs
@@ -1216,7 +1232,7 @@ gh workflow run deploy-prod.yml --ref v1.6.0
 
 ### Pre-Deployment (Development)
 
-```
+```text
 ✅ Code Changes
   □ Feature branch created from main
   □ Code changes complete
@@ -1240,7 +1256,7 @@ gh workflow run deploy-prod.yml --ref v1.6.0
 
 ### Pre-Deployment (Production)
 
-```
+```text
 ✅ Development Validation
   □ Feature tested thoroughly in dev
   □ No errors in Honeycomb (dev)
@@ -1263,7 +1279,7 @@ gh workflow run deploy-prod.yml --ref v1.6.0
 
 ### During Deployment (Production)
 
-```
+```text
 ✅ Deployment Started
   □ Workflow triggered from tag
   □ Manual approval given
@@ -1297,7 +1313,7 @@ gh workflow run deploy-prod.yml --ref v1.6.0
 
 ### Post-Deployment
 
-```
+```text
 ✅ Verification
   □ https://lego-catalog.app loads
   □ New feature visible
@@ -1325,7 +1341,7 @@ gh workflow run deploy-prod.yml --ref v1.6.0
 
 The deployment workflow automatically rolls back if:
 
-```yaml
+```text
 Automatic Rollback Triggers:
   - Error rate > 2% threshold
   - p95 latency increases > 50%
@@ -1335,6 +1351,7 @@ Automatic Rollback Triggers:
 ```
 
 **What happens during auto-rollback:**
+
 1. Traffic immediately reverts to blue (old version)
 2. Green deployment marked as failed
 3. Deployment event sent to Honeycomb
@@ -1364,6 +1381,7 @@ gcloud run services update-traffic lego-backend-prod \
 ```
 
 **After rollback:**
+
 1. Investigate issue in Honeycomb
 2. Identify root cause
 3. Fix in new branch
@@ -1379,7 +1397,7 @@ gcloud run services update-traffic lego-backend-prod \
 
 #### Development Environment (~$22/month)
 
-```
+```text
 Cloud Run (Backend)              $3    (minimal usage)
 Cloud Run (Frontend)             $2    (minimal usage)
 Cloud SQL (db-f1-micro)         $10    (running 24/7)
@@ -1392,7 +1410,7 @@ Subtotal:                      ~$22/month
 
 #### Production Environment (~$35/month for 100 users)
 
-```
+```text
 Cloud Run (Backend)             $12    (actual traffic)
 Cloud Run (Frontend)             $5
 Cloud SQL (db-f1-micro)         $10
@@ -1405,7 +1423,7 @@ Subtotal:                      ~$35/month
 
 #### Shared Services
 
-```
+```text
 Honeycomb (Free Tier)            $0    (up to 20 GB/month)
 GitHub Actions                   $0    (2,000 minutes/month free)
 Terraform State Storage          $1    (Cloud Storage bucket)
@@ -1416,7 +1434,7 @@ Terraform State Storage          $1    (Cloud Storage bucket)
 
 ### Cost Savings vs 3-Environment Setup
 
-```
+```text
 3 Environments (Dev/Test/Prod):  $80/month
 2 Environments (Dev/Prod):       $57/month
 ──────────────────────────────────────
@@ -1466,10 +1484,12 @@ Annual Savings:                  $276
 #### Issue 1: Deployment Failed
 
 **Symptoms:**
+
 - GitHub Actions workflow shows red X
 - Deployment didn't complete
 
 **Diagnosis:**
+
 ```bash
 # Check workflow logs
 gh run view <run-id>
@@ -1482,6 +1502,7 @@ gh run view <run-id>
 ```
 
 **Solutions:**
+
 ```bash
 # If Docker build failed:
 # - Check Dockerfile syntax
@@ -1507,10 +1528,12 @@ gh run view <run-id>
 #### Issue 2: High Error Rate in Honeycomb
 
 **Symptoms:**
+
 - Honeycomb shows error spike
 - Users reporting issues
 
 **Diagnosis:**
+
 ```bash
 # In Honeycomb:
 # 1. Filter: status_code >= 500
@@ -1525,6 +1548,7 @@ gh run view <run-id>
 ```
 
 **Solutions:**
+
 ```bash
 # If database connection issues:
 # - Check Cloud SQL connections in GCP console
@@ -1545,10 +1569,12 @@ gh run view <run-id>
 #### Issue 3: Slow Performance
 
 **Symptoms:**
+
 - Honeycomb shows high latency
 - Users complain of slowness
 
 **Diagnosis:**
+
 ```bash
 # In Honeycomb:
 # 1. Filter: duration_ms > 1000
@@ -1563,6 +1589,7 @@ gh run view <run-id>
 ```
 
 **Solutions:**
+
 ```bash
 # If N+1 queries:
 # - Add eager loading in ORM
@@ -1587,26 +1614,38 @@ gh run view <run-id>
 ### Infrastructure Benefits
 
 ✅ **Two isolated environments** for safe development
+
 ✅ **Infrastructure as Code** - reproducible, version-controlled
+
 ✅ **Automated CI/CD** - push code, get deployed
+
 ✅ **Zero-downtime deployments** with blue/green strategy
+
 ✅ **Full observability** with Honeycomb
+
 ✅ **Scalable** from 10 to 10,000+ users
+
 ✅ **Cost-effective** at $57/month (saves $276/year vs 3-env)
+
 ✅ **Industry-standard tools** - transferable skills
 
 ### Developer Experience
 
 ✅ **Fast feedback loop**: Code → Dev automatically
+
 ✅ **Confidence**: Automated testing catches bugs
+
 ✅ **Visibility**: See exactly what's deployed where via Honeycomb
+
 ✅ **Safety**: Manual approvals + gradual rollout for prod
+
 ✅ **Observability**: Know when things break (and why) with BubbleUp
+
 ✅ **Simplicity**: Right-sized for solo developer
 
 ### Your Simplified Workflow (Start to Finish)
 
-```
+```text
 Step 1: Create feature branch
 Step 2: Open PR, automated tests run
 Step 3: Merge to main
@@ -1616,25 +1655,30 @@ Step 6: Deploy to production when ready
 Step 7: Monitor in Honeycomb until stable ✅
 ```
 
-**Streamlined process from idea to production**
-**Gradual rollout with automated safety checks**
-**Minimal manual intervention required**
+Streamlined process from idea to production with gradual rollout and automated safety checks requiring minimal manual intervention.
 
 ### Safety Without a Test Environment
 
 Your 2-environment setup maintains high safety through:
 
 ✅ **Gradual Rollout**: 10% → 25% → 50% → 100% with monitoring
+
 ✅ **Automatic Rollback**: On error rate spikes or performance degradation
+
 ✅ **Blue/Green Deployment**: Old version stays running during rollout
+
 ✅ **Real-Time Monitoring**: Honeycomb shows issues immediately
+
 ✅ **Smoke Tests**: Required before any production traffic
+
 ✅ **Manual Approval**: You control when production deploys
+
 ✅ **Dev Environment**: Test thoroughly before promoting
 
 ### When to Consider Adding Test Environment
 
 Add a third environment when:
+
 - ✅ You hire additional team members
 - ✅ You reach 1,000+ active users
 - ✅ Downtime costs exceed $23/month
@@ -1656,11 +1700,14 @@ Add a third environment when:
 ### Phase 2: GCP Project Setup
 
 **Sub-steps:**
+
 1. Create GCP projects
+
    ```bash
    gcloud projects create lego-catalog-dev-425916
    gcloud projects create lego-catalog-prod-425916
    ```
+
 2. Enable billing for both projects
 3. Enable required APIs
 4. Create service accounts for GitHub Actions
@@ -1669,6 +1716,7 @@ Add a third environment when:
 ### Phase 3: Infrastructure as Code
 
 **Sub-steps:**
+
 1. Create lego-catalog-infrastructure repository
 2. Write Terraform modules for:
    - Cloud Run services
@@ -1682,6 +1730,7 @@ Add a third environment when:
 ### Phase 4: CI/CD Pipelines
 
 **Sub-steps:**
+
 1. Create GitHub Actions workflow files
 2. Implement and test build.yml (PR testing)
 3. Implement and test deploy-dev.yml (auto-deploy)
@@ -1691,6 +1740,7 @@ Add a third environment when:
 ### Phase 5: Observability Integration
 
 **Sub-steps:**
+
 1. Sign up for Honeycomb account
 2. Install and configure Beeline in Go backend
 3. Add Honeycomb instrumentation to React frontend
@@ -1700,6 +1750,7 @@ Add a third environment when:
 ### Phase 6: Production Launch
 
 **Sub-steps:**
+
 1. Perform final comprehensive testing in dev
 2. Execute database migration dry-run
 3. Deploy to production environment
@@ -1710,10 +1761,11 @@ Add a third environment when:
 ---
 
 This is a **professional-grade deployment pipeline** optimized for solo developers that:
+
 - Scales with your needs
 - Keeps costs low ($57/month)
 - Maintains high safety
 - Provides excellent observability
 - Teaches industry-standard practices
 
-You're building real-world skills that apply to companies of any size! 🚀
+You're building real-world skills that apply to companies of any size!
