@@ -2,9 +2,9 @@
   "metadata": {
     "session_started": "2025-11-08",
     "tracker_version": "3.0",
-    "current_item": 40,
+    "current_item": 48,
     "total_items": 108,
-    "last_updated": "2025-11-09T20:35:00Z"
+    "last_updated": "2025-11-10T21:42:00Z"
   },
   "items": {
     "1": {
@@ -474,6 +474,97 @@
       "note": "Adding brief CORS section to main guide: Go middleware implementation example, dev vs prod allowed origins configuration, credentials handling for JWT auth, common 'blocked by CORS policy' errors and fixes. Include step-by-step implementation instructions."
     },
     "40": {
+      "decision": "skip",
+      "status": "skipped",
+      "target_files": [],
+      "modifies_main_guide": false,
+      "main_guide_sections": [],
+      "depends_on": [],
+      "sections_completed": [],
+      "file_verification": {},
+      "note": "Skipped - consistent with Item 5 decision. Basic single-instance Cloud SQL is sufficient for 100-1000 user scale. Regional HA and read replicas add significant cost and complexity without meaningful benefit at this scale."
+    },
+    "41": {
+      "decision": "skip",
+      "status": "skipped",
+      "target_files": [],
+      "modifies_main_guide": false,
+      "main_guide_sections": [],
+      "depends_on": [],
+      "sections_completed": [],
+      "file_verification": {},
+      "note": "Skipped - Terratest and policy-as-code tools add complexity and cost without meaningful benefit for solo developer with simple infrastructure. Manual validation with terraform plan/validate is sufficient."
+    },
+    "42": {
+      "decision": "add_brief",
+      "status": "planned",
+      "target_files": ["docs/enhancements/cloud-deployment-guide/CLOUD_DEPLOYMENT_GUIDE.md"],
+      "modifies_main_guide": true,
+      "main_guide_sections": ["Infrastructure Drift Detection - brief paragraph"],
+      "depends_on": ["2"],
+      "sections_completed": [],
+      "file_verification": {},
+      "note": "Adding brief paragraph to main guide explaining how terraform plan shows drift (manual changes made outside Terraform), with reference to state management doc. Cover: what drift is, how to detect it with terraform plan, when to import vs revert changes."
+    },
+    "43": {
+      "decision": "add_full",
+      "status": "planned",
+      "target_files": ["docs/enhancements/cloud-deployment-guide/CLOUD_DEPLOYMENT_GUIDE.md"],
+      "modifies_main_guide": true,
+      "main_guide_sections": ["Cost Tagging and Resource Labeling - full section"],
+      "depends_on": [],
+      "sections_completed": [],
+      "file_verification": {},
+      "note": "Adding full cost tagging and resource labeling section: labeling strategy (environment/component/owner), Terraform implementation examples for all resource types, cost allocation using GCP Billing Reports, naming conventions (lego-catalog-prod-backend), budget alerts setup with email notifications."
+    },
+    "44": {
+      "decision": "separate_doc",
+      "status": "planned",
+      "target_files": [
+        "docs/enhancements/cloud-deployment-guide/detailed-guidance/github-actions-workflows-complete.md"
+      ],
+      "modifies_main_guide": true,
+      "main_guide_sections": ["CI/CD section - linked to detailed workflows doc"],
+      "depends_on": [],
+      "sections_completed": [],
+      "file_verification": {},
+      "note": "Creating github-actions-workflows-complete.md with full working .yml files, detailed explanations, and workflow diagrams. Includes: build workflow (Go backend + React frontend), test workflow, deploy workflow (Cloud Run with blue-green), database migration workflow, secrets management integration, troubleshooting common failures."
+    },
+    "45": {
+      "decision": "skip",
+      "status": "skipped",
+      "target_files": [],
+      "modifies_main_guide": false,
+      "main_guide_sections": [],
+      "depends_on": [],
+      "sections_completed": [],
+      "file_verification": {},
+      "note": "Skipped - matrix builds not needed when runtime versions are pinned in containers. Single deployment target (Cloud Run Linux containers) doesn't require multi-platform testing."
+    },
+    "46": {
+      "decision": "add_brief",
+      "status": "planned",
+      "target_files": ["docs/enhancements/cloud-deployment-guide/CLOUD_DEPLOYMENT_GUIDE.md"],
+      "modifies_main_guide": true,
+      "main_guide_sections": ["Secrets Management in CI/CD - brief section"],
+      "depends_on": [],
+      "sections_completed": [],
+      "file_verification": {},
+      "note": "Adding brief section on secrets management: GitHub Secrets best practices (environment-specific secrets, naming conventions), GCP Secret Manager integration with Cloud Run, Workload Identity for least privilege access (no service account keys), secret rotation procedures (link to Item 34 doc), common mistakes to avoid (never log secrets, .gitignore for .env files, enable GitHub secret scanning)."
+    },
+    "47": {
+      "decision": "add_brief",
+      "status": "planned",
+      "target_files": ["docs/enhancements/cloud-deployment-guide/CLOUD_DEPLOYMENT_GUIDE.md"],
+      "modifies_main_guide": true,
+      "main_guide_sections": ["Custom GitHub Actions - brief section"],
+      "depends_on": [],
+      "sections_completed": [],
+      "file_verification": {},
+      "architectural_change": true,
+      "note": "Adding brief section on custom composite GitHub Actions for multi-repo setup. ARCHITECTURAL CHANGE. Cover: why composite actions reduce duplication between infrastructure and app repos, simple example (common setup steps: checkout/auth/cache), sharing actions via .github/actions/ directory in infrastructure repo, using actions across repos, when to create custom actions (3+ repeated steps). Focus on composite actions only, skip JavaScript/Docker actions."
+    },
+    "48": {
       "decision": null,
       "status": "pending",
       "target_files": [],
