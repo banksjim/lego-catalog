@@ -34,7 +34,8 @@
     "29": "add_brief",
     "30": "skip",
     "31": "separate_doc_with_future_mention",
-    "32": "add_brief"
+    "32": "add_brief",
+    "33": "separate_doc"
   },
   "notes": {
     "1": "Created docs/enhancements/cloud-deployment-guide/detailed-guidance/terraform-modules-complete.md with full working Terraform code. Linked from main guide.",
@@ -68,7 +69,8 @@
     "29": "Adding brief section on business metrics via Honeycomb custom events: tracking user signups, searches, feature usage as Honeycomb events instead of separate Prometheus setup. Simpler than maintaining multiple observability systems.",
     "30": "Skipped - Honeycomb error tracking via traces is sufficient, dedicated error tracking tool adds complexity.",
     "31": "Creating docs/enhancements/cloud-deployment-guide/detailed-guidance/real-user-monitoring.md with Google Analytics 4 + web-vitals library setup, Core Web Vitals tracking. Brief future consideration mention in main guide linking to detailed doc.",
-    "32": "Adding brief section on GCP Cloud Monitoring uptime checks: setup for 5-minute intervals from 3 regions, /health endpoint, email alerts. Include cost info: 1M checks/month free (5-min checks from 3 regions = ~26k checks/month = $0)."
+    "32": "Adding brief section on GCP Cloud Monitoring uptime checks: setup for 5-minute intervals from 3 regions, /health endpoint, email alerts. Include cost info: 1M checks/month free (5-min checks from 3 regions = ~26k checks/month = $0).",
+    "33": "Creating docs/enhancements/cloud-deployment-guide/detailed-guidance/security-hardening-checklist.md with comprehensive OWASP Top 10 guide for Go/React: pre-deployment checklist, detailed mitigation strategies with code examples for each vulnerability, security scanning tools (gosec, npm audit, OWASP ZAP), incident response plan, and security checklists by deployment phase. Will add security verification section to deployment checklist in main guide and link from both main guide and docs/README.md."
   },
   "sections_to_add": [
     "Terraform Testing (future consideration reminder)",
@@ -109,7 +111,8 @@
     "docs/enhancements/cloud-deployment-guide/detailed-guidance/feature-flags-launchdarkly.md",
     "docs/enhancements/cloud-deployment-guide/detailed-guidance/database-migration-strategies.md",
     "docs/enhancements/cloud-deployment-guide/detailed-guidance/honeycomb-queries-library.md",
-    "docs/enhancements/cloud-deployment-guide/detailed-guidance/real-user-monitoring.md"
+    "docs/enhancements/cloud-deployment-guide/detailed-guidance/real-user-monitoring.md",
+    "docs/enhancements/cloud-deployment-guide/detailed-guidance/security-hardening-checklist.md"
   ],
   "status": "in_progress"
 }
