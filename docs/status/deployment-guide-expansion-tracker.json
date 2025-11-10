@@ -2,9 +2,9 @@
   "metadata": {
     "session_started": "2025-11-08",
     "tracker_version": "3.0",
-    "current_item": 38,
+    "current_item": 40,
     "total_items": 108,
-    "last_updated": "2025-11-09T19:05:00Z"
+    "last_updated": "2025-11-09T20:35:00Z"
   },
   "items": {
     "1": {
@@ -450,7 +450,7 @@
       "note": "Skipped - compliance documentation not needed yet. Add when specific compliance need arises (GDPR for EU users, SOC 2 for enterprise customers, etc.)."
     },
     "38": {
-      "decision": "separate_doc",
+      "decision": "separate_doc_educational",
       "status": "planned",
       "target_files": [
         "docs/enhancements/cloud-deployment-guide/detailed-guidance/api-authentication-guide.md"
@@ -460,7 +460,29 @@
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": "Creating comprehensive api-authentication-guide.md covering JWT implementation (with Go examples), OAuth 2.1 spec compliance, API key management. Thorough educational content for learning. Includes: JWT signing key management in GCP Secret Manager, token refresh strategies, OAuth 2.1 flows with diagrams, Go middleware implementation, React integration examples."
+      "note": "EDUCATIONAL WALKTHROUGH: Creating comprehensive api-authentication-guide.md as learning resource. Must use OAuth 2.1 spec (not 2.0, even though still draft). Content: JWT implementation deep-dive with Go examples for Lego Catalog project, OAuth 2.1 flows with detailed diagrams, API key management patterns, JWT signing key management in GCP Secret Manager, token refresh strategies, Go middleware implementation examples, React auth integration with protected routes. Focus: Teach concepts while providing production-ready implementation for the Lego Catalog application."
+    },
+    "39": {
+      "decision": "add_brief",
+      "status": "planned",
+      "target_files": ["docs/enhancements/cloud-deployment-guide/CLOUD_DEPLOYMENT_GUIDE.md"],
+      "modifies_main_guide": true,
+      "main_guide_sections": ["CORS Configuration - brief section"],
+      "depends_on": [],
+      "sections_completed": [],
+      "file_verification": {},
+      "note": "Adding brief CORS section to main guide: Go middleware implementation example, dev vs prod allowed origins configuration, credentials handling for JWT auth, common 'blocked by CORS policy' errors and fixes. Include step-by-step implementation instructions."
+    },
+    "40": {
+      "decision": null,
+      "status": "pending",
+      "target_files": [],
+      "modifies_main_guide": false,
+      "main_guide_sections": [],
+      "depends_on": [],
+      "sections_completed": [],
+      "file_verification": {},
+      "note": ""
     }
   },
   "status_values": {

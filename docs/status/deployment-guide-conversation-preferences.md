@@ -136,3 +136,31 @@ Current item number is stored in tracker JSON. Always update after each decision
 - Link format: `**📘 [Topic Name](docs/enhancements/cloud-deployment-guide/detailed-guidance/filename.md)**`
 - Provide brief context about what the linked document covers
 - Also update `docs/README.md` with the new document under the appropriate category
+
+## Implementation Roadmap (Post-Decision Collection)
+
+**AFTER all 108 items are decided**, create a master implementation roadmap document.
+
+**Purpose:**
+Provide a logical, step-by-step plan to implement all planned work as the user sets up environments and deploys the Lego Catalog app to GCP.
+
+**Roadmap Requirements:**
+
+1. **Granularity:** Break down separate documents into discrete implementation sub-tasks
+   - Example: API Authentication Guide → "Implement JWT signing," "Create auth middleware," "Add React login flow," etc.
+   - Each sub-task should be actionable and completable independently
+
+2. **Prioritization Criteria (ALL of these):**
+   - **Technical dependencies** - Must do A before B (e.g., infrastructure before app features, auth before protected endpoints)
+   - **Value delivery** - Prioritize high-value features that deliver user-facing functionality
+   - **User preferences** - Account for stated priorities (e.g., feature flags marked as "soon")
+   - **Deployment progression** - Align with user's actual deployment journey (local → dev environment → prod environment)
+
+3. **Format:** Create as separate markdown document
+   - Suggested name: `IMPLEMENTATION_ROADMAP.md` or similar
+   - Include phases/milestones aligned with deployment stages
+   - Show dependencies clearly
+   - Treat each piece as a discrete feature to implement
+
+**When to Create:**
+Only after completing decision collection for all 108 items. Do NOT create during decision collection phase.
