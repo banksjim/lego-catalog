@@ -720,7 +720,7 @@ User → Load Balancer (lego-catalog.app)
 **What it is:** One VPC shared across multiple GCP projects.
 
 **Use case:**
-- You have separate projects for dev/test/prod
+- You have separate projects for dev/staging/prod
 - Want centralized network management
 - Need projects to communicate via private IPs
 

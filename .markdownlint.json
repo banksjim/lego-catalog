@@ -1,0 +1,25 @@
+{
+  "default": true,
+  "MD012": {
+    "maximum": 1
+  },
+  "MD013": false,
+  "MD024": {
+    "siblings_only": true
+  },
+  "MD029": {
+    "style": "ordered"
+  },
+  "MD031": true,
+  "MD032": true,
+  "MD033": {
+    "allowed_elements": ["br", "details", "summary", "kbd"]
+  },
+  "MD034": true,
+  "MD036": true,
+  "MD040": true,
+  "MD041": false,
+  "MD046": {
+    "style": "fenced"
+  }
+}
