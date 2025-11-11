@@ -583,6 +583,7 @@
     "skipped": "Intentionally skipped, no work needed"
   },
   "architectural_changes": [
-    "MULTI-REPO ARCHITECTURE (item 12): Split into infrastructure repo (GCP-cloud-run-sql-environments) and application repo (lego-catalog)."
+    "MULTI-REPO ARCHITECTURE (item 12): Split into infrastructure repo (GCP-cloud-run-sql-environments) and application repo (lego-catalog).",
+    "CUSTOM COMPOSITE ACTIONS (item 47): Shared GitHub Actions for multi-repo coordination and reducing duplication."
   ]
 }
