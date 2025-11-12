@@ -1241,6 +1241,7 @@
     }
   },
   "status_values": {
+    "pending": "No decision made yet, needs evaluation",
     "planned": "Decision made, not yet implemented",
     "in_progress": "Currently being implemented - can track partial progress via sections_completed",
     "completed": "Fully implemented and file_verification confirms existence",
