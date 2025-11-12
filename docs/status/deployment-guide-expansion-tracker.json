@@ -1248,6 +1248,6 @@
   },
   "architectural_changes": [
     "MULTI-REPO ARCHITECTURE (item 12): Split into infrastructure repo (GCP-cloud-run-sql-environments) and application repo (lego-catalog).",
-    "CUSTOM COMPOSITE GITHUB ACTIONS (item 47): Create custom composite GitHub Actions for multi-repo workflow coordination and code reuse."
+    "CUSTOM COMPOSITE GITHUB ACTIONS (item 12): Create custom composite GitHub Actions for multi-repo workflow coordination and code reuse."
   ]
 }
