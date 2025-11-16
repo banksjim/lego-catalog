@@ -2,12 +2,27 @@
   "metadata": {
     "session_started": "2025-11-08",
     "tracker_version": "4.0",
-    "current_item": 46,
-    "total_items": 108,
-    "last_updated": "2025-11-10T23:30:00Z",
-    "deduplication_notes": "Removed duplicate items 40-49 which were re-decisions of items 5-14. Merged improved decision notes from the duplicates into the original items where the later decisions had more detail."
+    "current_item": 68,
+    "total_items": 109,
+    "last_updated": "2025-11-15T01:50:00Z",
+    "deduplication_notes": "Removed duplicate items 40-49 which were re-decisions of items 5-14. Merged improved decision notes from the duplicates into the original items where the later decisions had more detail.",
+    "item_0_note": "Item 0 added as PREREQUISITE - must complete before items 1-108. Covers initial containerization and GCP deployment."
   },
   "items": {
+    "0": {
+      "decision": "separate_doc",
+      "status": "planned",
+      "target_files": [
+        "docs/enhancements/cloud-deployment-guide/INITIAL_DEPLOYMENT.md"
+      ],
+      "modifies_main_guide": true,
+      "main_guide_sections": ["Prerequisites section - linked to initial deployment guide"],
+      "depends_on": [],
+      "sections_completed": [],
+      "file_verification": {},
+      "prerequisite": true,
+      "note": "PREREQUISITE: Must complete before items 1-108. Initial containerization and GCP deployment guide. Part 1: Containerize existing Lego Catalog app (Dockerfile for Go backend with current blob storage, Dockerfile for React frontend, Docker Compose for local PostgreSQL + app stack, run locally with Rancher Desktop, test containerized app end-to-end). Part 2: GCP project setup (create project, enable APIs for Cloud Run/Cloud SQL/Artifact Registry, billing alerts, gcloud CLI configuration). Part 3: Minimal infrastructure (manual setup - Terraform will codify this in Items 1-2): create Artifact Registry repository, push initial images, create basic Cloud SQL instance, create Cloud Run services for backend + frontend, configure environment variables and secrets. Part 4: Initial deployment (deploy containers to Cloud Run, connect to Cloud SQL, verify end-to-end functionality, basic troubleshooting). This creates minimal working deployment that Items 1-108 will enhance with Infrastructure as Code, CI/CD automation, monitoring, security hardening, performance optimization, etc."
+    },
     "1": {
       "decision": "separate_doc",
       "status": "completed",
@@ -547,246 +562,260 @@
       "note": "Creating connection-pool-tuning.md as comprehensive guide covering: Go database/sql connection pool configuration (MaxOpenConns, MaxIdleConns, ConnMaxLifetime), recommended settings for Cloud Run + Cloud SQL at 1000 user scale, connection limit calculations (max instances × pool size vs Cloud SQL limits), connection lifecycle management, monitoring connection usage with Cloud SQL metrics, troubleshooting connection exhaustion, practical code examples."
     },
     "46": {
-      "decision": null,
-      "status": "pending",
-      "target_files": [],
-      "modifies_main_guide": false,
-      "main_guide_sections": [],
+      "decision": "separate_doc",
+      "status": "planned",
+      "target_files": [
+        "docs/enhancements/cloud-deployment-guide/detailed-guidance/database-backup-restore-procedures.md"
+      ],
+      "modifies_main_guide": true,
+      "main_guide_sections": ["Database section - linked to backup/restore guide"],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Creating database-backup-restore-procedures.md as comprehensive disaster recovery playbook. Cover: Cloud SQL automated backup configuration, point-in-time recovery step-by-step walkthrough, restore testing procedures (quarterly testing schedule), common recovery scenarios (accidental deletion, data corruption, disaster recovery), backup retention policies, on-demand backup creation, monitoring backup success. Include gcloud commands for all recovery operations. Critical for production readiness."
     },
     "47": {
-      "decision": null,
-      "status": "pending",
-      "target_files": [],
-      "modifies_main_guide": false,
-      "main_guide_sections": [],
+      "decision": "add_brief",
+      "status": "planned",
+      "target_files": ["docs/enhancements/cloud-deployment-guide/CLOUD_DEPLOYMENT_GUIDE.md"],
+      "modifies_main_guide": true,
+      "main_guide_sections": ["Performance Optimization - brief caching paragraph"],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Adding brief paragraph on caching as future optimization consideration. Cover: when to consider caching (after proper indexing and monitoring show bottlenecks), caching options overview (Redis/Memorystore for session/data caching, in-memory Go maps for simple cases, Cloud CDN for static assets), cache invalidation challenges. Frame as something to revisit when scale or performance metrics indicate need, not day-one requirement."
     },
     "48": {
-      "decision": null,
-      "status": "pending",
+      "decision": "skip",
+      "status": "skipped",
       "target_files": [],
       "modifies_main_guide": false,
       "main_guide_sections": [],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Skipped - database scaling patterns (read replicas, sharding) not relevant at 100-1000 user scale. Already decided to skip Cloud SQL HA and read replicas in Item 5. Focus on proper indexing (Item 43), connection pooling (Item 45), and query optimization (Item 44) which are the actual performance levers at this scale. Revisit only if reaching 10,000+ active users."
     },
     "49": {
-      "decision": null,
-      "status": "pending",
-      "target_files": [],
+      "decision": "add_to_item_44",
+      "status": "planned",
+      "target_files": [
+        "docs/enhancements/cloud-deployment-guide/detailed-guidance/database-indexing-guide.md"
+      ],
       "modifies_main_guide": false,
       "main_guide_sections": [],
-      "depends_on": [],
+      "depends_on": ["44"],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Adding N+1 query detection and prevention to Item 44's query optimization section. Include: what N+1 queries are with Go code examples (bad: loop with queries vs good: single JOIN), how to detect using Honeycomb traces and PostgreSQL query logs, prevention patterns (eager loading with JOINs, batch loading), specific Lego Catalog examples (sets with parts, inventory with details). Natural fit with other query optimization examples."
     },
     "50": {
-      "decision": null,
-      "status": "pending",
-      "target_files": [],
-      "modifies_main_guide": false,
-      "main_guide_sections": [],
+      "decision": "separate_doc",
+      "status": "planned",
+      "target_files": [
+        "docs/enhancements/cloud-deployment-guide/detailed-guidance/load-testing-k6-guide.md"
+      ],
+      "modifies_main_guide": true,
+      "main_guide_sections": ["Performance Testing section - linked to k6 load testing guide"],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Creating load-testing-k6-guide.md focused exclusively on k6 (not Locust/JMeter). Comprehensive k6 coverage: why load test (verify autoscaling, find bottlenecks), k6 installation and setup, load test scenario design for Lego Catalog APIs (ramping VUs, steady state, spike testing), writing k6 test scripts with real examples, result interpretation (response times, throughput, error rates), Cloud Run autoscaling verification, when to run load tests (pre-launch, after performance changes), integrating k6 into CI/CD. Document length: as long as needed for thorough k6 coverage, not artificially padded to 5 pages."
     },
     "51": {
-      "decision": null,
-      "status": "pending",
-      "target_files": [],
-      "modifies_main_guide": false,
-      "main_guide_sections": [],
+      "decision": "separate_doc",
+      "status": "planned",
+      "target_files": [
+        "docs/enhancements/cloud-deployment-guide/detailed-guidance/cloud-tasks-background-jobs.md"
+      ],
+      "modifies_main_guide": true,
+      "main_guide_sections": ["Background Jobs section - linked to Cloud Tasks guide"],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Creating cloud-tasks-background-jobs.md focused exclusively on Cloud Tasks (not Pub/Sub). Cover TWO specific Lego Catalog use cases for implementation: (1) CSV import - processing bulk inventory updates asynchronously, (2) CSV export - generating large data exports without blocking requests. Content: Cloud Tasks introduction and setup, creating task queues, enqueueing tasks from Go endpoints, implementing task handlers in Go, error handling and retries, monitoring task execution, complete working examples for both CSV import and export flows. User can add additional use cases later as needed."
     },
     "52": {
-      "decision": null,
-      "status": "pending",
+      "decision": "skip",
+      "status": "skipped",
       "target_files": [],
       "modifies_main_guide": false,
       "main_guide_sections": [],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Skipped - no scheduled work requirements identified. Health check monitoring already covered by Item 32 (Cloud Monitoring uptime checks, which is the correct tool and is free). Cloud Scheduler is for triggering scheduled work, not monitoring. Can add later if scheduled tasks emerge (data refreshes, cleanup jobs, etc.)."
     },
     "53": {
-      "decision": null,
-      "status": "pending",
+      "decision": "skip",
+      "status": "skipped",
       "target_files": [],
       "modifies_main_guide": false,
       "main_guide_sections": [],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Skipped - no real-time feature requirements for Lego catalog application. Traditional request/response pattern sufficient for browsing sets and managing inventory. WebSockets add significant complexity (connection management, reconnection, scaling) without clear benefit at this scale. Can add later if specific real-time needs emerge (live collaboration, real-time notifications, etc.)."
     },
     "54": {
-      "decision": null,
-      "status": "pending",
-      "target_files": [],
-      "modifies_main_guide": false,
-      "main_guide_sections": [],
+      "decision": "separate_doc",
+      "status": "planned",
+      "target_files": [
+        "docs/enhancements/cloud-deployment-guide/detailed-guidance/file-upload-cloud-storage.md"
+      ],
+      "modifies_main_guide": true,
+      "main_guide_sections": ["File Storage section - linked to Cloud Storage migration guide"],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Creating file-upload-cloud-storage.md as comprehensive migration and implementation guide. PRIMARY FOCUS: Migrate existing Lego set pictures from PostgreSQL blob storage to Cloud Storage. Cover: (1) Why migrate (performance, cost, best practices), (2) Cloud Storage setup and bucket configuration, (3) Database schema migration (blob column → GCS URL/path column with migration SQL), (4) Data migration strategy (script to extract existing images from DB and upload to GCS), (5) Backend API changes (Go code updates to read/write GCS instead of DB blobs), (6) Frontend changes (React updates to fetch from GCS URLs if needed), (7) Signed URLs for new uploads, (8) File validation and security, (9) Rollback plan. Complete working implementation for actual Lego Catalog application migration."
     },
     "55": {
-      "decision": null,
-      "status": "pending",
+      "decision": "skip",
+      "status": "skipped",
       "target_files": [],
       "modifies_main_guide": false,
       "main_guide_sections": [],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Skipped - focus on basic Cloud Storage migration first (Item 54). Image optimization (resizing, compression, format conversion) is nice-to-have but not essential for catalog app at 100-1000 user scale. Can add later if performance metrics or storage costs indicate need. Recommendation: complete Item 54 migration, then revisit optimization based on actual performance data."
     },
     "56": {
-      "decision": null,
-      "status": "pending",
+      "decision": "skip",
+      "status": "skipped",
       "target_files": [],
       "modifies_main_guide": false,
       "main_guide_sections": [],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Skipped - no immediate email requirements identified. Can add later when specific needs emerge (password reset, account verification, export notifications, inventory alerts, etc.). When needed, recommend SendGrid for simplicity and generous free tier (100 emails/day)."
     },
     "57": {
-      "decision": null,
-      "status": "pending",
+      "decision": "skip",
+      "status": "skipped",
       "target_files": [],
       "modifies_main_guide": false,
       "main_guide_sections": [],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Skipped - API versioning premature at 100-1000 user scale with single React frontend. User controls all clients and can deploy frontend/backend together. No third-party integrations or mobile apps requiring independent versioning. Add later if building mobile apps, exposing public APIs, or growing beyond 10,000 users with diverse client versions. Focus on good API design now, formal versioning when actually needed."
     },
     "58": {
-      "decision": null,
-      "status": "pending",
-      "target_files": [],
-      "modifies_main_guide": false,
-      "main_guide_sections": [],
+      "decision": "add_brief",
+      "status": "planned",
+      "target_files": ["docs/enhancements/cloud-deployment-guide/CLOUD_DEPLOYMENT_GUIDE.md"],
+      "modifies_main_guide": true,
+      "main_guide_sections": ["API Design - brief pagination section"],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Adding brief section on pagination implementation and performance. Cover: offset-based vs cursor-based comparison (when to use each), performance implications of high offsets, query optimization tips (add indexes on sort columns, use LIMIT wisely), when to migrate to cursor-based (>10,000 items or performance issues), consistency considerations (items shifting between pages). Build on existing basic pagination coverage with practical optimization guidance."
     },
     "59": {
-      "decision": null,
-      "status": "pending",
+      "decision": "skip",
+      "status": "skipped",
       "target_files": [],
       "modifies_main_guide": false,
       "main_guide_sections": [],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Skipped - stick with basic filters for now. Advanced search (PostgreSQL full-text or Elasticsearch) not needed at current scale. Basic LIKE/ILIKE queries with proper indexes sufficient for browsing and filtering sets/parts. Can add PostgreSQL full-text search later if users request better search capabilities or search becomes performance bottleneck."
     },
     "60": {
-      "decision": null,
-      "status": "pending",
+      "decision": "skip",
+      "status": "skipped",
       "target_files": [],
       "modifies_main_guide": false,
       "main_guide_sections": [],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Skipped - not applicable to individual user catalog application. This is a multi-user application (users managing personal collections), not a multi-tenant application (organizations as customers). Current user_id-based data isolation is correct approach. Multi-tenancy patterns would add significant complexity without benefit. Only relevant if pivoting to B2B SaaS model selling to organizations."
     },
     "61": {
-      "decision": null,
-      "status": "pending",
-      "target_files": [],
-      "modifies_main_guide": false,
-      "main_guide_sections": [],
+      "decision": "separate_doc",
+      "status": "planned",
+      "target_files": [
+        "docs/enhancements/cloud-deployment-guide/detailed-guidance/incident-response-runbooks.md"
+      ],
+      "modifies_main_guide": true,
+      "main_guide_sections": ["Operations section - linked to runbooks"],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Creating incident-response-runbooks.md as practical troubleshooting guide for solo developer. Cover common/critical scenarios: (1) Application won't start (Cloud Run deployment failures, config issues), (2) Database connection errors (connection pool exhaustion, Cloud SQL down), (3) High response times (performance degradation diagnosis), (4) Failed deployment (rollback procedures reference Item 17/23), (5) Data loss/corruption (restore procedures reference Item 46). Include exact gcloud commands, diagnostic decision trees, links to Honeycomb queries (Item 24), and step-by-step procedures for 2 AM incident response. Solo-focused: no team escalation, practical self-service troubleshooting."
     },
     "62": {
-      "decision": null,
-      "status": "pending",
+      "decision": "skip",
+      "status": "skipped",
       "target_files": [],
       "modifies_main_guide": false,
       "main_guide_sections": [],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Skipped - formal incident response procedures (severity levels, escalation paths, team communication protocols) designed for teams, not solo developers. Item 61's runbooks provide the practical troubleshooting guidance needed. No escalation paths needed (no team to escalate to), minimal need for formal severity classification. If needed, can add brief incident prioritization to Item 61 runbook."
     },
     "63": {
-      "decision": null,
-      "status": "pending",
+      "decision": "skip",
+      "status": "skipped",
       "target_files": [],
       "modifies_main_guide": false,
       "main_guide_sections": [],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Skipped - formal post-mortem process not needed for solo developer. While documenting major incidents has value, doesn't warrant separate content. If needed, can add simple post-incident documentation template to Item 61 runbooks. Blameless culture and formal templates designed for team environments, not single-person operations."
     },
     "64": {
-      "decision": null,
-      "status": "pending",
+      "decision": "skip",
+      "status": "skipped",
       "target_files": [],
       "modifies_main_guide": false,
       "main_guide_sections": [],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Skipped - critical disaster recovery pieces already covered. Item 46 handles database backup/restore (most critical data), Terraform infrastructure as code enables full infrastructure recreation, Item 61 runbooks provide operational procedures. Formal RTO/RPO definitions and comprehensive DR plan add process overhead without meaningful benefit for solo developer at 1000 user scale. Can revisit if scaling significantly or adding compliance requirements."
     },
     "65": {
-      "decision": null,
-      "status": "pending",
+      "decision": "skip",
+      "status": "skipped",
       "target_files": [],
       "modifies_main_guide": false,
       "main_guide_sections": [],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Skipped - no compliance requirements and minimal storage costs at 1000 user scale. Storage costs negligible ($0.02/GB/month GCS, pennies in PostgreSQL). Implement account deletion on user request, keep backups 30 days (Item 46 covers). Formal retention policies unnecessary without GDPR/CCPA requirements. Add only if targeting EU users or facing specific compliance needs."
     },
     "66": {
-      "decision": null,
-      "status": "pending",
-      "target_files": [],
-      "modifies_main_guide": false,
-      "main_guide_sections": [],
-      "depends_on": [],
+      "decision": "add_brief",
+      "status": "planned",
+      "target_files": ["docs/enhancements/cloud-deployment-guide/CLOUD_DEPLOYMENT_GUIDE.md"],
+      "modifies_main_guide": true,
+      "main_guide_sections": ["User Data Management - brief section"],
+      "depends_on": ["51"],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Adding brief section on user data export and account deletion. Build on Item 51's CSV export to extend to complete user data export (all sets, parts, inventory, account info in JSON/CSV). Cover account deletion with cascade delete implementation, confirmation flow, and data anonymization considerations. Include API endpoint examples, Go implementation guidance, and React UI integration. Good practice regardless of GDPR, prepares for potential EU users, gives users control over their data."
     },
     "67": {
-      "decision": null,
-      "status": "pending",
-      "target_files": [],
-      "modifies_main_guide": false,
-      "main_guide_sections": [],
-      "depends_on": [],
+      "decision": "separate_doc",
+      "status": "planned",
+      "target_files": [
+        "docs/enhancements/cloud-deployment-guide/detailed-guidance/dependency-update-strategy.md"
+      ],
+      "modifies_main_guide": true,
+      "main_guide_sections": ["Maintenance section - linked to dependency update guide"],
+      "depends_on": ["9"],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Creating dependency-update-strategy.md as comprehensive guide for containerized application dependency management. Cover: (1) Dependency types: Go modules, npm packages, container base images (golang:*, node:*), OS packages in containers. (2) GitHub Dependabot setup and configuration for all dependency types. (3) Containerized update workflow: Dependabot PR → CI/CD rebuilds container (Item 9) → tests run → review and merge → deploy new image. (4) Container vulnerability scanning: trivy, GCP Container Analysis integration, interpreting scan results. (5) Update prioritization: security patches (immediate), minor/patch versions (monthly), major versions (planned with testing), base image updates (quarterly or security-driven). (6) Breaking change management and testing strategies. (7) Container layer caching optimization during updates. (8) Rollback procedures if updates cause issues. Complete guide for keeping containerized Lego Catalog application secure and up-to-date."
     },
     "68": {
       "decision": null,

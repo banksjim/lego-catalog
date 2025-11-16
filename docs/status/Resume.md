@@ -2,6 +2,12 @@
 
 **When the user says "Let's resume" or similar, follow these steps:**
 
+## Step 0: Branch Naming Convention
+**Always use this naming convention for deployment guide working branches:**
+- Format: `docs/deploy-guide-session-YYYYMMDD`
+- Example: `docs/deploy-guide-session-20251112`
+- See `.claude/branch-naming-convention.md` for full details
+
 ## Step 1: Validate Tracker (if needed)
 If resuming after a major tracker operation (deduplication, merging, renumbering), run:
 ```bash
