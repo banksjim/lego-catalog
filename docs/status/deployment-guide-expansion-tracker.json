@@ -2,9 +2,9 @@
   "metadata": {
     "session_started": "2025-11-08",
     "tracker_version": "4.0",
-    "current_item": 68,
+    "current_item": 81,
     "total_items": 109,
-    "last_updated": "2025-11-15T01:50:00Z",
+    "last_updated": "2025-11-18T01:00:00Z",
     "deduplication_notes": "Removed duplicate items 40-49 which were re-decisions of items 5-14. Merged improved decision notes from the duplicates into the original items where the later decisions had more detail.",
     "item_0_note": "Item 0 added as PREREQUISITE - must complete before items 1-108. Covers initial containerization and GCP deployment."
   },
@@ -818,147 +818,151 @@
       "note": "Creating dependency-update-strategy.md as comprehensive guide for containerized application dependency management. Cover: (1) Dependency types: Go modules, npm packages, container base images (golang:*, node:*), OS packages in containers. (2) GitHub Dependabot setup and configuration for all dependency types. (3) Containerized update workflow: Dependabot PR → CI/CD rebuilds container (Item 9) → tests run → review and merge → deploy new image. (4) Container vulnerability scanning: trivy, GCP Container Analysis integration, interpreting scan results. (5) Update prioritization: security patches (immediate), minor/patch versions (monthly), major versions (planned with testing), base image updates (quarterly or security-driven). (6) Breaking change management and testing strategies. (7) Container layer caching optimization during updates. (8) Rollback procedures if updates cause issues. Complete guide for keeping containerized Lego Catalog application secure and up-to-date."
     },
     "68": {
-      "decision": null,
-      "status": "pending",
+      "decision": "skip",
+      "status": "skipped",
       "target_files": [],
       "modifies_main_guide": false,
       "main_guide_sections": [],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Skipped - breaking change management not needed for coordinated frontend/backend container deployment. User controls both React frontend and Go backend, can deploy simultaneously. No external API consumers or independent client applications. Database migrations covered in Item 21, deployment rollbacks in Items 17/23. Only relevant if building public APIs or multiple independent client apps."
     },
     "69": {
-      "decision": null,
-      "status": "pending",
-      "target_files": [],
-      "modifies_main_guide": false,
-      "main_guide_sections": [],
-      "depends_on": [],
+      "decision": "add_brief",
+      "status": "planned",
+      "target_files": ["docs/enhancements/cloud-deployment-guide/CLOUD_DEPLOYMENT_GUIDE.md"],
+      "modifies_main_guide": true,
+      "main_guide_sections": ["Security - brief production access section"],
+      "depends_on": ["11"],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Adding brief section on production access security for solo developer. Cover: enable 2FA/MFA on Google account (critical security baseline), service account least privilege principles, Workload Identity for GitHub Actions (reference Item 11), GCP Cloud Audit Logs location and basic review, account recovery planning (backup codes, recovery email). Focus on practical security hygiene, not team access policies. Include step-by-step 2FA setup and where to find audit logs in GCP console."
     },
     "70": {
-      "decision": null,
-      "status": "pending",
-      "target_files": [],
-      "modifies_main_guide": false,
-      "main_guide_sections": [],
-      "depends_on": [],
+      "decision": "separate_doc",
+      "status": "planned",
+      "target_files": [
+        "docs/enhancements/cloud-deployment-guide/detailed-guidance/cost-optimization-strategies.md"
+      ],
+      "modifies_main_guide": true,
+      "main_guide_sections": ["Cost Management section - linked to cost optimization guide"],
+      "depends_on": ["8"],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Creating cost-optimization-strategies.md as comprehensive guide for containerized Lego Catalog at 100-1000 user scale. Cover service-by-service optimization: (1) Cloud Run: right-sizing containers (CPU/memory), min instances strategy, request-based pricing, expected costs $10-30/month. (2) Cloud SQL: instance sizing (db-f1-micro to db-g1-small), storage optimization, connection pooling impact (reference Item 45), expected costs $15-50/month. (3) Cloud Storage: storage class selection, lifecycle policies for backups, image compression, expected costs $2-10/month. (4) Artifact Registry: image retention policies, cleanup strategies, expected costs $5-15/month. (5) Networking: egress minimization, Cloud CDN usage, same-region traffic, expected costs $5-20/month. (6) Monitoring: Honeycomb free tier optimization, trace sampling, expected costs $0-20/month. Include: cost monitoring setup, billing alerts configuration, monthly cost review checklist, cost tagging integration (reference Item 8), realistic total cost expectations ($50-150/month), cost spike troubleshooting. Focused on solo developer budget constraints."
     },
     "71": {
-      "decision": null,
-      "status": "pending",
+      "decision": "skip",
+      "status": "skipped",
       "target_files": [],
       "modifies_main_guide": false,
       "main_guide_sections": [],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Skipped - Committed Use Discounts premature at 100-1000 user scale with new deployment. Small absolute savings ($60-336/year on Cloud SQL), uncertain growth trajectory, architecture may change. CUDs require predictable usage patterns and lock-in commitment. Better to run standard pricing 6-12 months to establish baseline, then evaluate. Focus on right-sizing resources (Item 70) for better ROI without commitment risk. Mention CUDs briefly in Item 70 as future consideration once usage stabilizes."
     },
     "72": {
-      "decision": null,
-      "status": "pending",
-      "target_files": [],
-      "modifies_main_guide": false,
-      "main_guide_sections": [],
-      "depends_on": [],
+      "decision": "separate_doc",
+      "status": "planned",
+      "target_files": [
+        "docs/enhancements/cloud-deployment-guide/detailed-guidance/cloud-run-cold-start-optimization.md"
+      ],
+      "modifies_main_guide": true,
+      "main_guide_sections": ["Cloud Run Performance section - linked to cold start guide"],
+      "depends_on": ["0"],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Creating cloud-run-cold-start-optimization.md as comprehensive guide for containerized Cloud Run services. Cover: (1) Understanding cold starts: what they are, when they occur, typical latency impact (1-3s for Go containers), user experience implications. (2) Container optimization: multi-stage Docker builds to reduce image size, lazy loading dependencies, faster initialization patterns, startup time profiling (reference Item 0's Dockerfiles). (3) Min instances strategy: configuration, cost analysis ($20-40/month per service), when to use (consistent traffic, SLA requirements), per-service decisions (frontend vs backend). (4) External keep-alive: Cloud Scheduler ping setup, cost ($0.10/month), effectiveness vs limitations, sample configuration. (5) Accepting cold starts: when acceptable (low traffic, tolerant users), cost savings, performance monitoring. (6) Performance vs cost trade-offs: decision matrix based on traffic patterns, budget constraints, user requirements. (7) Measuring cold start impact: using Honeycomb traces (Item 24), Cloud Run metrics, identifying cold start requests. (8) Optimization for Lego Catalog: specific recommendations for frontend/backend services at 100-1000 user scale. Complete guide for making informed cold start decisions."
     },
     "73": {
-      "decision": null,
-      "status": "pending",
-      "target_files": [],
-      "modifies_main_guide": false,
-      "main_guide_sections": [],
-      "depends_on": [],
+      "decision": "add_brief",
+      "status": "planned",
+      "target_files": ["docs/enhancements/cloud-deployment-guide/CLOUD_DEPLOYMENT_GUIDE.md"],
+      "modifies_main_guide": true,
+      "main_guide_sections": ["Cloud Storage - brief lifecycle policy section"],
+      "depends_on": ["54"],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Adding brief section on Cloud Storage lifecycle policy basics. Cover: storage class overview (Standard/Nearline/Coldline/Archive with costs), common lifecycle policy use cases (delete old backups, archive logs, cleanup temp files), simple policy example (delete exports after 7 days), gcloud command to set policies, when lifecycle policies provide value (>100GB storage or lots of backups/exports). Frame as future optimization - at current scale (few GBs), savings are pennies per month. Reference Item 54 for Cloud Storage setup, Item 70 for broader cost optimization."
     },
     "74": {
-      "decision": null,
-      "status": "pending",
+      "decision": "skip",
+      "status": "skipped",
       "target_files": [],
       "modifies_main_guide": false,
       "main_guide_sections": [],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Skipped - database right-sizing guidance will be included in Item 70's cost optimization guide as part of Cloud SQL optimization section. Not complex enough for separate content. Simple guidance: monitor Cloud SQL metrics (CPU, memory, connections), upgrade if CPU >80% sustained, downgrade if CPU <20% for weeks. Start with db-g1-small ($25/month) or db-n1-standard-1 ($50/month) at 100-1000 user scale. Already covered: Item 43 (indexing to avoid needing bigger instances), Item 45 (connection pooling for efficiency), Item 70 (cost optimization strategies)."
     },
     "75": {
-      "decision": null,
-      "status": "pending",
-      "target_files": [],
-      "modifies_main_guide": false,
-      "main_guide_sections": [],
-      "depends_on": [],
+      "decision": "add_brief",
+      "status": "planned",
+      "target_files": ["docs/enhancements/cloud-deployment-guide/CLOUD_DEPLOYMENT_GUIDE.md"],
+      "modifies_main_guide": true,
+      "main_guide_sections": ["Cost Management - brief cost monitoring section"],
+      "depends_on": ["0", "8"],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Adding brief section on cost anomaly detection and budget monitoring. Build on Item 0's basic billing alerts with: budget forecast setup in GCP, monthly cost review practices, using billing dashboards to investigate cost spikes, cost breakdown by service and tags (reference Item 8), common cost spike scenarios (runaway containers, storage explosion, egress spikes, forgotten resources), investigation steps when costs spike. Appropriate thresholds for $50-150/month budget (alert at 50%, 75%, 100%). Skip complex BigQuery anomaly detection - basic alerts and monthly reviews sufficient at this scale."
     },
     "76": {
-      "decision": null,
-      "status": "pending",
+      "decision": "skip",
+      "status": "skipped",
       "target_files": [],
       "modifies_main_guide": false,
       "main_guide_sections": [],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Skipped - granular cost attribution not needed at $50-150/month budget scale. Item 8's resource labeling provides sufficient cost visibility (by environment, component, owner). GCP billing shows costs by service. Detailed feature-level or per-customer attribution requires complex setup (BigQuery exports, usage tracking, SQL analysis) without actionable insights at this scale. Only relevant for B2B SaaS with per-customer pricing or enterprise cost allocation needs. Time better spent building features than analyzing cost attribution."
     },
     "77": {
-      "decision": null,
-      "status": "pending",
-      "target_files": [],
-      "modifies_main_guide": false,
-      "main_guide_sections": [],
-      "depends_on": [],
+      "decision": "add_brief",
+      "status": "planned",
+      "target_files": ["docs/enhancements/cloud-deployment-guide/CLOUD_DEPLOYMENT_GUIDE.md"],
+      "modifies_main_guide": true,
+      "main_guide_sections": ["Testing - brief integration testing section"],
+      "depends_on": ["0", "9"],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Adding brief section on integration testing essentials for containerized application. Cover: using Docker Compose (from Item 0) for local test database setup, writing integration tests for critical API endpoints (auth, CRUD operations, database migrations), Go test examples with real PostgreSQL container, test database management (clean state, migrations, minimal seed data), running integration tests in GitHub Actions CI/CD (reference Item 9). Focus on practical testing for high-value paths: authentication flows, set/part CRUD operations, CSV import/export (Item 51), Cloud Storage integration (Item 54). Simple setup instructions, not comprehensive test strategy."
     },
     "78": {
-      "decision": null,
-      "status": "pending",
-      "target_files": [],
-      "modifies_main_guide": false,
-      "main_guide_sections": [],
-      "depends_on": [],
+      "decision": "add_brief",
+      "status": "planned",
+      "target_files": ["docs/enhancements/cloud-deployment-guide/CLOUD_DEPLOYMENT_GUIDE.md"],
+      "modifies_main_guide": true,
+      "main_guide_sections": ["Testing - brief E2E testing section"],
+      "depends_on": ["0", "9"],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Adding brief section on end-to-end testing basics with Playwright. Cover: Playwright installation and setup for React app, writing E2E tests for 3-5 critical user flows (auth/login, browse sets, view set details with images, add to collection, CSV export), running tests locally against Docker Compose stack (reference Item 0), integrating E2E tests into GitHub Actions CI/CD (reference Item 9), handling test flakiness and maintenance. Focus on high-value paths that would cause most user pain if broken. Practical setup guidance, not comprehensive coverage - manual testing remains valid for solo developer."
     },
     "79": {
-      "decision": null,
-      "status": "pending",
+      "decision": "skip",
+      "status": "skipped",
       "target_files": [],
       "modifies_main_guide": false,
       "main_guide_sections": [],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Skipped - redundant with Item 50's k6 load testing guide. Load testing scenarios (realistic traffic patterns, ramping VUs, steady state, spike testing, breaking point analysis) are integral part of load testing and already covered comprehensively in Item 50. Cannot separate scenario design from the k6 tool implementation. Item 50 includes Lego Catalog-specific scenario examples and result interpretation."
     },
     "80": {
-      "decision": null,
-      "status": "pending",
+      "decision": "skip",
+      "status": "skipped",
       "target_files": [],
       "modifies_main_guide": false,
       "main_guide_sections": [],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Skipped - chaos engineering massive overkill for solo developer at 100-1000 user scale. Designed for large-scale distributed systems (Netflix/Amazon scale), not simple architectures. Better ROI from fundamentals already planned: monitoring and alerting (Items 24-32), deployment rollback (Items 17, 23), database backup/restore (Item 46), incident runbooks (Item 61). At this scale, real-world usage surfaces issues faster than chaos experiments. Focus on good observability and recovery procedures instead."
     },
     "81": {
       "decision": null,
