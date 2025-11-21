@@ -1012,7 +1012,7 @@
       "note": "Adding local development workflow section to Item 0's initial deployment guide. Extends containerization coverage with: development workflow using Docker Compose (hot reloading for Go/React, debugging containerized services), environment variable management (.env files for local vs dev GCP config), running tests locally in containers, optional connection to dev Cloud SQL/Cloud Storage for testing GCP integrations, common troubleshooting (port conflicts, container networking, volume permissions, Rancher Desktop issues). Keeps containerization + local development as cohesive learning path in one document."
     },
     "85": {
-      "decision": "add_to_item_84",
+      "decision": "add_to_item_0",
       "status": "planned",
       "target_files": [
         "docs/enhancements/cloud-deployment-guide/INITIAL_DEPLOYMENT.md"
@@ -1022,7 +1022,7 @@
       "depends_on": ["84"],
       "sections_completed": [],
       "file_verification": {},
-      "note": "Adding database seeding section to Item 84's local development workflow (in Item 0). Cover: simple SQL-based seeding approach (INSERT statements for sets, parts, themes, colors), running seeds via docker compose exec, sample data strategy (50-100 sets, representative themes/colors, test user account), reset procedure (drop/recreate, migrations, seeds), when to seed (initial setup, after destructive testing, schema changes). Keep simple - skip complex Faker libraries or fixture frameworks, solo developer doesn't need elaborate tooling."
+      "note": "Adding database seeding section to Item 0's initial deployment guide (extending Item 84's local dev workflow section). Cover: simple SQL-based seeding approach (INSERT statements for sets, parts, themes, colors), running seeds via docker compose exec, sample data strategy (50-100 sets, representative themes/colors, test user account), reset procedure (drop/recreate, migrations, seeds), when to seed (initial setup, after destructive testing, schema changes). Keep simple - skip complex Faker libraries or fixture frameworks, solo developer doesn't need elaborate tooling."
     },
     "86": {
       "decision": "skip",
