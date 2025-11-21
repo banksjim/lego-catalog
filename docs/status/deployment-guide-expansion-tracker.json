@@ -637,15 +637,15 @@
       "note": "Creating cloud-tasks-background-jobs.md focused exclusively on Cloud Tasks (not Pub/Sub). Cover TWO specific Lego Catalog use cases for implementation: (1) CSV import - processing bulk inventory updates asynchronously, (2) CSV export - generating large data exports without blocking requests. Content: Cloud Tasks introduction and setup, creating task queues, enqueueing tasks from Go endpoints, implementing task handlers in Go, error handling and retries, monitoring task execution, complete working examples for both CSV import and export flows. User can add additional use cases later as needed."
     },
     "52": {
-      "decision": "skip",
-      "status": "skipped",
-      "target_files": [],
-      "modifies_main_guide": false,
-      "main_guide_sections": [],
+      "decision": "add_brief",
+      "status": "planned",
+      "target_files": ["docs/enhancements/cloud-deployment-guide/CLOUD_DEPLOYMENT_GUIDE.md"],
+      "modifies_main_guide": true,
+      "main_guide_sections": ["Cloud Scheduler - brief section"],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": "Skipped - no scheduled work requirements identified. Health check monitoring already covered by Item 32 (Cloud Monitoring uptime checks, which is the correct tool and is free). Cloud Scheduler is for triggering scheduled work, not monitoring. Can add later if scheduled tasks emerge (data refreshes, cleanup jobs, etc.)."
+      "note": "Adding brief section on Cloud Scheduler for scheduled job triggers. Primary use case: Item 103 (daily/weekly price updates for set valuations). Cover: Cloud Scheduler basics, creating schedules, triggering Cloud Tasks, cron syntax, timezone configuration, gcloud commands for creating scheduled jobs. Simple setup instructions for triggering background work on a schedule."
     },
     "53": {
       "decision": "skip",
@@ -1231,10 +1231,10 @@
       ],
       "modifies_main_guide": true,
       "main_guide_sections": ["Application Features section - linked to valuation algorithms guide"],
-      "depends_on": ["51", "101", "102"],
+      "depends_on": ["51", "52", "101", "102"],
       "sections_completed": [],
       "file_verification": {},
-      "note": "Creating set-valuation-algorithms.md as application feature guide demonstrating scheduled background processing. Cover: aggregating pricing data from Bricklink/Rebrickable APIs (reference Items 101-102), calculating average/median/trending prices, historical price tracking and storage, Cloud Scheduler setup for daily/weekly price updates, Cloud Tasks for background price calculations (reference Item 51), algorithms for condition/completeness factors, storing calculated valuations in database, alerting on significant price changes, Go implementation examples. Demonstrates practical scheduled job pattern using GCP services for real application feature."
+      "note": "Creating set-valuation-algorithms.md as application feature guide demonstrating scheduled background processing. Cover: aggregating pricing data from Bricklink/Rebrickable APIs (reference Items 101-102), calculating average/median/trending prices, historical price tracking and storage, Cloud Scheduler setup for daily/weekly price updates (reference Item 52), Cloud Tasks for background price calculations (reference Item 51), algorithms for condition/completeness factors, storing calculated valuations in database, alerting on significant price changes, Go implementation examples. Demonstrates practical scheduled job pattern using GCP services for real application feature."
     },
     "104": {
       "decision": "separate_doc",
