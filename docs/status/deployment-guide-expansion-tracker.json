@@ -2,9 +2,10 @@
   "metadata": {
     "session_started": "2025-11-08",
     "tracker_version": "4.0",
-    "current_item": 81,
+    "current_item": 109,
     "total_items": 109,
-    "last_updated": "2025-11-18T01:00:00Z",
+    "last_updated": "2025-11-20T01:00:00Z",
+    "decision_collection_completed": true,
     "deduplication_notes": "Removed duplicate items 40-49 which were re-decisions of items 5-14. Merged improved decision notes from the duplicates into the original items where the later decisions had more detail.",
     "item_0_note": "Item 0 added as PREREQUISITE - must complete before items 1-108. Covers initial containerization and GCP deployment."
   },
@@ -636,15 +637,15 @@
       "note": "Creating cloud-tasks-background-jobs.md focused exclusively on Cloud Tasks (not Pub/Sub). Cover TWO specific Lego Catalog use cases for implementation: (1) CSV import - processing bulk inventory updates asynchronously, (2) CSV export - generating large data exports without blocking requests. Content: Cloud Tasks introduction and setup, creating task queues, enqueueing tasks from Go endpoints, implementing task handlers in Go, error handling and retries, monitoring task execution, complete working examples for both CSV import and export flows. User can add additional use cases later as needed."
     },
     "52": {
-      "decision": "skip",
-      "status": "skipped",
-      "target_files": [],
-      "modifies_main_guide": false,
-      "main_guide_sections": [],
+      "decision": "add_brief",
+      "status": "planned",
+      "target_files": ["docs/enhancements/cloud-deployment-guide/CLOUD_DEPLOYMENT_GUIDE.md"],
+      "modifies_main_guide": true,
+      "main_guide_sections": ["Cloud Scheduler - brief section"],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": "Skipped - no scheduled work requirements identified. Health check monitoring already covered by Item 32 (Cloud Monitoring uptime checks, which is the correct tool and is free). Cloud Scheduler is for triggering scheduled work, not monitoring. Can add later if scheduled tasks emerge (data refreshes, cleanup jobs, etc.)."
+      "note": "Adding brief section on Cloud Scheduler for scheduled job triggers. Primary use case: Item 103 (daily/weekly price updates for set valuations). Cover: Cloud Scheduler basics, creating schedules, triggering Cloud Tasks, cron syntax, timezone configuration, gcloud commands for creating scheduled jobs. Simple setup instructions for triggering background work on a schedule."
     },
     "53": {
       "decision": "skip",
@@ -965,312 +966,340 @@
       "note": "Skipped - chaos engineering massive overkill for solo developer at 100-1000 user scale. Designed for large-scale distributed systems (Netflix/Amazon scale), not simple architectures. Better ROI from fundamentals already planned: monitoring and alerting (Items 24-32), deployment rollback (Items 17, 23), database backup/restore (Item 46), incident runbooks (Item 61). At this scale, real-world usage surfaces issues faster than chaos experiments. Focus on good observability and recovery procedures instead."
     },
     "81": {
-      "decision": null,
-      "status": "pending",
-      "target_files": [],
+      "decision": "add_to_item_77",
+      "status": "planned",
+      "target_files": ["docs/enhancements/cloud-deployment-guide/CLOUD_DEPLOYMENT_GUIDE.md"],
       "modifies_main_guide": false,
       "main_guide_sections": [],
-      "depends_on": [],
+      "depends_on": ["77"],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Adding database testing essentials to Item 77's integration testing section. Cover: test database management patterns (clean slate per test vs shared fixtures), migration testing in CI (apply up and down migrations), test data seeding strategies for Lego Catalog (sets, parts, minimal fixtures), testing database constraints and triggers. Natural fit with integration testing - testing Go code against real PostgreSQL container using Docker Compose from Item 0."
     },
     "82": {
-      "decision": null,
-      "status": "pending",
+      "decision": "skip",
+      "status": "skipped",
       "target_files": [],
       "modifies_main_guide": false,
       "main_guide_sections": [],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Skipped - contract testing designed for teams with independently deployed services or public APIs with external consumers. Solo developer controls both React frontend and Go backend, deploys containers together (Item 0), no version skew or independent clients. Better API verification already covered: integration tests verify API behavior (Item 77), E2E tests verify frontend/backend integration (Item 78), TypeScript provides compile-time type safety. Contract testing adds tooling complexity without benefit at this scale."
     },
     "83": {
-      "decision": null,
-      "status": "pending",
+      "decision": "skip",
+      "status": "skipped",
       "target_files": [],
       "modifies_main_guide": false,
       "main_guide_sections": [],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Skipped - visual regression testing not needed for solo developer. Solo context means all UI changes are intentional and visible during development, no surprise regressions from teammates. E2E tests with Playwright (Item 78) catch functional UI breaks. VRT tools add cost (Percy/Chromatic $50-150/month) or maintenance overhead (BackstopJS) without meaningful benefit for simple catalog browsing UI. Manual review during PR process sufficient. Playwright supports screenshot assertions if selective screenshot testing needed later."
     },
     "84": {
-      "decision": null,
-      "status": "pending",
-      "target_files": [],
+      "decision": "add_to_item_0",
+      "status": "planned",
+      "target_files": [
+        "docs/enhancements/cloud-deployment-guide/INITIAL_DEPLOYMENT.md"
+      ],
       "modifies_main_guide": false,
       "main_guide_sections": [],
-      "depends_on": [],
+      "depends_on": ["0"],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Adding local development workflow section to Item 0's initial deployment guide. Extends containerization coverage with: development workflow using Docker Compose (hot reloading for Go/React, debugging containerized services), environment variable management (.env files for local vs dev GCP config), running tests locally in containers, optional connection to dev Cloud SQL/Cloud Storage for testing GCP integrations, common troubleshooting (port conflicts, container networking, volume permissions, Rancher Desktop issues). Keeps containerization + local development as cohesive learning path in one document."
     },
     "85": {
-      "decision": null,
-      "status": "pending",
-      "target_files": [],
+      "decision": "add_to_item_0",
+      "status": "planned",
+      "target_files": [
+        "docs/enhancements/cloud-deployment-guide/INITIAL_DEPLOYMENT.md"
+      ],
       "modifies_main_guide": false,
       "main_guide_sections": [],
-      "depends_on": [],
+      "depends_on": ["84"],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Adding database seeding section to Item 0's initial deployment guide (extending Item 84's local dev workflow section). Cover: simple SQL-based seeding approach (INSERT statements for sets, parts, themes, colors), running seeds via docker compose exec, sample data strategy (50-100 sets, representative themes/colors, test user account), reset procedure (drop/recreate, migrations, seeds), when to seed (initial setup, after destructive testing, schema changes). Keep simple - skip complex Faker libraries or fixture frameworks, solo developer doesn't need elaborate tooling."
     },
     "86": {
-      "decision": null,
-      "status": "pending",
+      "decision": "skip",
+      "status": "skipped",
       "target_files": [],
       "modifies_main_guide": false,
       "main_guide_sections": [],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Skipped - comprehensive code review guidelines designed for teams, not solo developers. No team means no review process, approval workflows, or feedback communication to document. Better quality gates already planned: branch protection requiring PRs (Item 13), automated security scanning (Item 35 in Item 33), CI/CD checks (Item 9), integration and E2E tests (Items 77-78). These automated checks provide quality gates without manual review checklists. Solo developer self-review is personal workflow preference, doesn't need documentation in deployment guide."
     },
     "87": {
-      "decision": null,
-      "status": "pending",
+      "decision": "skip",
+      "status": "skipped",
       "target_files": [],
       "modifies_main_guide": false,
       "main_guide_sections": [],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Skipped - Git workflow details outside deployment guide scope. Solo developer establishes own workflow preferences, no team standardization needed. Essential Git structure already covered: branch protection and squash merging (Item 13), GitHub Environments for deployment branches (Item 14), CI/CD integration (Item 9). Branching strategy, commit conventions, and workflow patterns are personal preferences better suited to general software engineering guides, not GCP deployment documentation."
     },
     "88": {
-      "decision": null,
-      "status": "pending",
-      "target_files": [],
+      "decision": "add_to_item_0",
+      "status": "planned",
+      "target_files": [
+        "docs/enhancements/cloud-deployment-guide/INITIAL_DEPLOYMENT.md"
+      ],
       "modifies_main_guide": false,
       "main_guide_sections": [],
-      "depends_on": [],
+      "depends_on": ["0"],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Adding IDE setup as FIRST section of Item 0's initial deployment guide. IMPLEMENTATION ORDER: This should be the opening section before containerization. Cover: recommended editor setup (VS Code with Go, React/TypeScript, Docker, Terraform extensions), linting and formatting configuration (golangci-lint, ESLint, Prettier), essential extensions for productivity (GitLens, Remote-Containers, Thunder Client for API testing), debugging setup (Go debugger, React DevTools), workspace configuration for monorepo if applicable, settings.json recommendations. Creates complete getting-started flow: IDE setup → Containerize app (Item 0) → Local dev workflow (Item 84) → Database seeding (Item 85) → Deploy to GCP (Item 0)."
     },
     "89": {
-      "decision": null,
-      "status": "pending",
+      "decision": "skip",
+      "status": "skipped",
       "target_files": [],
       "modifies_main_guide": false,
       "main_guide_sections": [],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Skipped - general debugging techniques outside deployment guide scope. Deployment-specific debugging already covered: IDE debugging setup (Item 88 in Item 0), debugging containerized services locally (Item 84 in Item 0), production debugging with Honeycomb traces (Item 24), incident troubleshooting runbooks (Item 61). General debugging tutorials for Go/React/Chrome DevTools extensively documented online, not deployment-specific. Solo developer already has debugging workflow established."
     },
     "90": {
-      "decision": null,
-      "status": "pending",
+      "decision": "skip",
+      "status": "skipped",
       "target_files": [],
       "modifies_main_guide": false,
       "main_guide_sections": [],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Skipped - documentation standards outside deployment guide scope. Standards for API docs, code comments, and ADRs are general software engineering practices, not GCP deployment concerns. Solo developer doesn't need formal documentation standards for team collaboration. Personal documentation preferences sufficient. Not deployment-specific content."
     },
     "91": {
-      "decision": null,
-      "status": "pending",
+      "decision": "skip",
+      "status": "skipped",
       "target_files": [],
       "modifies_main_guide": false,
       "main_guide_sections": [],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Skipped - scaling strategy premature at 100-1000 user scale. Cloud Run provides automatic horizontal auto-scaling, no manual scaling decisions needed. At this scale, default settings handle load easily. Scaling decisions require production metrics showing actual bottlenecks, which won't exist for years at current growth trajectory. Item 70 covers Cloud Run right-sizing, Item 92 covers auto-scaling configuration - sufficient for current needs. Revisit only when reaching 10,000+ active users with performance data showing specific bottlenecks."
     },
     "92": {
-      "decision": null,
-      "status": "pending",
-      "target_files": [],
+      "decision": "add_to_item_70",
+      "status": "planned",
+      "target_files": [
+        "docs/enhancements/cloud-deployment-guide/detailed-guidance/cost-optimization-strategies.md"
+      ],
       "modifies_main_guide": false,
       "main_guide_sections": [],
-      "depends_on": [],
+      "depends_on": ["70"],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Adding auto-scaling configuration to Item 70's cost optimization guide. Extend Cloud Run optimization section with: concurrency settings (default 80 vs tuning based on request duration - quick requests use higher, slow requests use lower), CPU allocation strategies (always-allocated for consistent performance vs request-only for cost savings), max instances limits to prevent cost runaway, startup CPU boost for faster cold starts, configuration examples for Lego Catalog services (frontend: stateless/high concurrency vs backend: database connections/moderate concurrency), how settings interact with costs and performance. Creates comprehensive Cloud Run configuration guidance."
     },
     "93": {
-      "decision": null,
-      "status": "pending",
+      "decision": "skip",
+      "status": "skipped",
       "target_files": [],
       "modifies_main_guide": false,
       "main_guide_sections": [],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Skipped - database sharding massively premature at 100-1000 user scale. Would need 100,000+ active users before considering sharding. Single Cloud SQL instance handles massive loads (tens of thousands of users) before sharding needed. Better scaling alternatives already covered: indexing (Item 43), query optimization (Item 44), connection pooling (Item 45). Sharding adds enormous application architecture complexity and requires production data showing specific bottlenecks. Multiple scaling steps come first: optimization, vertical scaling, read replicas. Sharding is years away, if ever needed."
     },
     "94": {
-      "decision": null,
-      "status": "pending",
+      "decision": "skip",
+      "status": "skipped",
       "target_files": [],
       "modifies_main_guide": false,
       "main_guide_sections": [],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Skipped - microservices migration massively premature at 100-1000 user scale. Solo developer context eliminates primary microservices benefit (independent team ownership). Current containerized architecture (Go backend + React frontend on Cloud Run) scales to 10,000+ users easily. Microservices add enormous complexity: distributed tracing, service discovery, inter-service auth, data consistency, operational overhead. No clear service boundaries in cohesive Lego catalog domain. Multiple optimization steps come first: database tuning, caching, vertical scaling. Only relevant if reaching 100,000+ users with specific bottlenecks requiring service extraction."
     },
     "95": {
-      "decision": null,
-      "status": "pending",
+      "decision": "skip",
+      "status": "skipped",
       "target_files": [],
       "modifies_main_guide": false,
       "main_guide_sections": [],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Skipped - no event-driven architecture use case for Lego catalog application. Traditional synchronous request/response handles all identified requirements. Asynchronous processing already covered by Cloud Tasks for background jobs (Item 51 - CSV import/export). Event-driven patterns (Pub/Sub, eventually consistent data, saga patterns) add complexity without clear benefit. Designed for multi-service coordination and complex workflows, not applicable to current simple architecture. Solo developer doesn't need service decoupling benefits. Can revisit if specific event-driven requirements emerge (event sourcing, external integrations, complex multi-step workflows)."
     },
     "96": {
-      "decision": null,
-      "status": "pending",
+      "decision": "skip",
+      "status": "skipped",
       "target_files": [],
       "modifies_main_guide": false,
       "main_guide_sections": [],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Skipped - no API gateway use case for simple architecture. Single React frontend communicating with single Go backend on Cloud Run - no routing complexity. API gateway features already covered in application: authentication in backend (Item 38), rate limiting in backend (Item 40). Cloud Run provides sufficient API infrastructure: HTTPS endpoints, auto-scaling, SSL, DDoS protection. API gateways designed for complex multi-API scenarios with many consumers, not relevant for solo developer with single client. Adds cost ($50-200+/month) and operational complexity without benefit."
     },
     "97": {
-      "decision": null,
-      "status": "pending",
-      "target_files": [],
+      "decision": "add_to_item_46",
+      "status": "planned",
+      "target_files": [
+        "docs/enhancements/cloud-deployment-guide/detailed-guidance/database-backup-restore-procedures.md"
+      ],
       "modifies_main_guide": false,
       "main_guide_sections": [],
-      "depends_on": [],
+      "depends_on": ["46"],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Adding comprehensive backup testing procedures to Item 46's backup/restore guide. Extend restore testing section with: quarterly restore testing schedule (calendar reminders), step-by-step test restore procedure (create test Cloud SQL instance, restore from backup, verify data), validation checklist (row counts, key data spot-checks, schema verification), documenting restore times for RTO planning, common issues during restore testing and troubleshooting, cleaning up test instances after validation. Creates complete backup/restore/testing workflow in single comprehensive disaster recovery guide."
     },
     "98": {
-      "decision": null,
-      "status": "pending",
-      "target_files": [],
+      "decision": "add_to_item_46",
+      "status": "planned",
+      "target_files": [
+        "docs/enhancements/cloud-deployment-guide/detailed-guidance/database-backup-restore-procedures.md"
+      ],
       "modifies_main_guide": false,
       "main_guide_sections": [],
-      "depends_on": [],
+      "depends_on": ["46"],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Adding data migration procedures to Item 46's backup/restore guide. Extend with environment data refresh section covering: export prod database → anonymize sensitive data → import to dev, SQL anonymization scripts for Lego Catalog (user emails, names, addresses), gcloud commands for cross-environment export/import, when to refresh dev data (quarterly or after major prod changes), validation steps after import, coordinating with schema migrations (reference Item 21). Uses same Cloud SQL export/import mechanisms as backup/restore. Enables realistic dev testing with production data patterns while protecting PII."
     },
     "99": {
-      "decision": null,
-      "status": "pending",
+      "decision": "skip",
+      "status": "skipped",
       "target_files": [],
       "modifies_main_guide": false,
       "main_guide_sections": [],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Skipped - vendor lock-in mitigation contradicts purpose of GCP deployment guide. Guide should use GCP services effectively, not avoid them. Architecture already portable where it matters: PostgreSQL (Cloud SQL) runs anywhere, Docker containers portable, Go/React code cloud-agnostic, Terraform enables infrastructure recreation. At 100-1000 user scale, portability concerns premature optimization. Abstracting cloud services adds complexity without benefit. If migration ever needed (unlikely), rewriting Terraform and deployment config is expected. Application code and database already portable."
     },
     "100": {
-      "decision": null,
-      "status": "pending",
+      "decision": "skip",
+      "status": "skipped",
       "target_files": [],
       "modifies_main_guide": false,
       "main_guide_sections": [],
       "depends_on": [],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Skipped - exit strategy unnecessary in GCP deployment guide. This is guide for deploying to GCP effectively, not planning to leave it. At 100-1000 user scale, migration concerns premature. Architecture already portable: Cloud SQL exports to standard Postgres, Cloud Storage files downloadable, Docker containers run anywhere, Terraform enables infrastructure recreation. If migration ever needed (years away if ever), process is straightforward: export database, download files, push images to new registry, rewrite Terraform. No need for speculative exit documentation."
     },
     "101": {
-      "decision": null,
-      "status": "pending",
-      "target_files": [],
-      "modifies_main_guide": false,
-      "main_guide_sections": [],
-      "depends_on": [],
+      "decision": "separate_doc",
+      "status": "planned",
+      "target_files": [
+        "docs/enhancements/cloud-deployment-guide/detailed-guidance/bricklink-api-integration.md"
+      ],
+      "modifies_main_guide": true,
+      "main_guide_sections": ["Application Features section - linked to Bricklink API guide"],
+      "depends_on": ["51", "54", "11"],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Creating bricklink-api-integration.md as application feature guide within deployment documentation. Cover: Bricklink API authentication and setup, fetching set metadata (name, piece count, release year, themes), retrieving pricing data and trends, downloading set images to Cloud Storage (reference Item 54), background job processing using Cloud Tasks for API calls (reference Item 51), API secrets management with Secret Manager (reference Item 11), rate limiting and API quotas, caching strategies for API responses, error handling and retry logic, Go implementation examples for Lego Catalog backend. Application-level feature implementation integrated with deployment infrastructure."
     },
     "102": {
-      "decision": null,
-      "status": "pending",
-      "target_files": [],
-      "modifies_main_guide": false,
-      "main_guide_sections": [],
-      "depends_on": [],
+      "decision": "separate_doc",
+      "status": "planned",
+      "target_files": [
+        "docs/enhancements/cloud-deployment-guide/detailed-guidance/rebrickable-api-integration.md"
+      ],
+      "modifies_main_guide": true,
+      "main_guide_sections": ["Application Features section - linked to Rebrickable API guide"],
+      "depends_on": ["51", "54", "11"],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Creating rebrickable-api-integration.md as separate API integration guide. Cover: Rebrickable API authentication and setup, fetching set metadata and part inventories, set relationships and alternate builds, MOC instructions data, downloading images to Cloud Storage (reference Item 54), background job processing using Cloud Tasks (reference Item 51), API secrets management with Secret Manager (reference Item 11), rate limiting and API quotas, caching strategies, error handling and retry logic, Go implementation examples. Can reference Item 101 for shared API integration patterns while highlighting Rebrickable-specific features and data structures."
     },
     "103": {
-      "decision": null,
-      "status": "pending",
-      "target_files": [],
-      "modifies_main_guide": false,
-      "main_guide_sections": [],
-      "depends_on": [],
+      "decision": "separate_doc",
+      "status": "planned",
+      "target_files": [
+        "docs/enhancements/cloud-deployment-guide/detailed-guidance/set-valuation-algorithms.md"
+      ],
+      "modifies_main_guide": true,
+      "main_guide_sections": ["Application Features section - linked to valuation algorithms guide"],
+      "depends_on": ["51", "52", "101", "102"],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Creating set-valuation-algorithms.md as application feature guide demonstrating scheduled background processing. Cover: aggregating pricing data from Bricklink/Rebrickable APIs (reference Items 101-102), calculating average/median/trending prices, historical price tracking and storage, Cloud Scheduler setup for daily/weekly price updates (reference Item 52), Cloud Tasks for background price calculations (reference Item 51), algorithms for condition/completeness factors, storing calculated valuations in database, alerting on significant price changes, Go implementation examples. Demonstrates practical scheduled job pattern using GCP services for real application feature."
     },
     "104": {
-      "decision": null,
-      "status": "pending",
-      "target_files": [],
-      "modifies_main_guide": false,
-      "main_guide_sections": [],
-      "depends_on": [],
+      "decision": "separate_doc",
+      "status": "planned",
+      "target_files": [
+        "docs/enhancements/cloud-deployment-guide/detailed-guidance/collection-statistics.md"
+      ],
+      "modifies_main_guide": true,
+      "main_guide_sections": ["Application Features section - linked to collection statistics guide"],
+      "depends_on": ["43", "44"],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Creating collection-statistics.md as application feature guide. Cover: advanced analytics and insights (total collection value over time, growth trends, theme distribution, piece counts, rarest sets, value concentration, year distribution), database query optimization for statistics aggregation (reference Items 43-44 on indexing/query optimization), caching computed statistics for performance, React visualization components (charts and graphs), handling large collections efficiently, Go backend endpoints for analytics data, incremental computation strategies. Demonstrates building performant analytics features on deployed infrastructure."
     },
     "105": {
-      "decision": null,
-      "status": "pending",
-      "target_files": [],
-      "modifies_main_guide": false,
-      "main_guide_sections": [],
-      "depends_on": [],
+      "decision": "separate_doc",
+      "status": "planned",
+      "target_files": [
+        "docs/enhancements/cloud-deployment-guide/detailed-guidance/wishlist-prioritization.md"
+      ],
+      "modifies_main_guide": true,
+      "main_guide_sections": ["Application Features section - linked to wishlist prioritization guide"],
+      "depends_on": ["103", "104"],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Creating wishlist-prioritization.md as application feature guide. Cover: smart wishlist sorting algorithms (by value, rarity, price trends), rarity scoring system (retired sets, limited editions, availability), price trend analysis integration (reference Item 103 valuation algorithms), 'best deal' algorithm (value vs price ratio), budget-based recommendations, availability tracking, Go backend implementation for prioritization logic, React UI for interactive wishlist sorting and filtering, database queries for efficient sorting. Builds on valuation and statistics features to help users prioritize set acquisitions."
     },
     "106": {
-      "decision": null,
-      "status": "pending",
-      "target_files": [],
-      "modifies_main_guide": false,
-      "main_guide_sections": [],
-      "depends_on": [],
+      "decision": "separate_doc",
+      "status": "planned",
+      "target_files": [
+        "docs/enhancements/cloud-deployment-guide/detailed-guidance/part-inventory-tracking.md"
+      ],
+      "modifies_main_guide": true,
+      "main_guide_sections": ["Application Features section - linked to part inventory guide"],
+      "depends_on": ["21", "101", "102"],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Creating part-inventory-tracking.md as application feature guide. Cover: database schema design for individual parts (color, type, quantity, condition), tracking loose parts vs parts in complete sets, part condition tracking, search and filter by part attributes, integration with Bricklink/Rebrickable part data (reference Items 101-102), missing parts tracking for incomplete sets, part-level valuation, database migration strategies (reference Item 21), Go backend CRUD operations for parts, React UI for part management, efficient queries for large part inventories. Demonstrates detailed inventory management feature implementation."
     },
     "107": {
-      "decision": null,
-      "status": "pending",
-      "target_files": [],
-      "modifies_main_guide": false,
-      "main_guide_sections": [],
-      "depends_on": [],
+      "decision": "separate_doc",
+      "status": "planned",
+      "target_files": [
+        "docs/enhancements/cloud-deployment-guide/detailed-guidance/collection-insurance-documentation.md"
+      ],
+      "modifies_main_guide": true,
+      "main_guide_sections": ["Application Features section - linked to insurance documentation guide"],
+      "depends_on": ["51", "54", "66", "103"],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Creating collection-insurance-documentation.md as application feature guide. Cover: generating insurance-ready reports (PDF, CSV formats), required fields for insurance providers (set name, value, condition, photos, purchase date), photo documentation integration from Cloud Storage (reference Item 54), valuation summaries using Item 103 algorithms, background PDF generation using Cloud Tasks (reference Item 51), export formats compatible with insurance providers, certificate of authenticity tracking, proof of purchase documentation, Go backend implementation for report generation, React UI for insurance export workflow. Extends Item 66 user data export with insurance-specific formatting and requirements."
     },
     "108": {
-      "decision": null,
-      "status": "pending",
-      "target_files": [],
-      "modifies_main_guide": false,
-      "main_guide_sections": [],
-      "depends_on": [],
+      "decision": "separate_doc",
+      "status": "planned",
+      "target_files": [
+        "docs/enhancements/cloud-deployment-guide/detailed-guidance/public-collection-sharing.md"
+      ],
+      "modifies_main_guide": true,
+      "main_guide_sections": ["Application Features section - linked to public sharing guide"],
+      "depends_on": ["38", "33", "40"],
       "sections_completed": [],
       "file_verification": {},
-      "note": ""
+      "note": "Creating public-collection-sharing.md as application feature guide with deployment security considerations. Cover: public profile URLs for collections, privacy controls (public/private/friends-only), shareable links to sets and collections, collection comparison features, social features (comments, likes, follows), public collection galleries/browsing, embed widgets for external sites, authentication and authorization for sharing controls (reference Item 38), privacy and data security (reference Item 33), performance considerations for popular collections, Cloud CDN for public pages, rate limiting for public APIs (reference Item 40), Go backend implementation for public endpoints, React UI for sharing controls and public views. Balances community features with security and performance."
     }
   },
   "status_values": {
